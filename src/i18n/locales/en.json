@@ -1,0 +1,152 @@
+{
+  "common": {
+    "appName": "OKRs View",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import",
+    "settings": "Settings",
+    "logout": "Logout",
+    "profile": "Profile"
+  },
+  "auth": {
+    "login": "Sign In",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot password?",
+    "rememberMe": "Remember me",
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Enter your credentials to continue",
+    "signupTitle": "Create your account",
+    "signupSubtitle": "Fill in your details to get started",
+    "passwordRequirements": "Minimum 10 characters, uppercase, lowercase, number and special character",
+    "invalidCredentials": "Invalid credentials",
+    "weakPassword": "Weak password. Follow the security requirements."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "okrs": "OKRs",
+    "indicators": "Indicators",
+    "teams": "Teams",
+    "train": "Train (ART)",
+    "backlog": "Backlog",
+    "wiki": "Wiki",
+    "feed": "Feed",
+    "admin": "Administration",
+    "tenants": "Tenants"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to OKRs View",
+    "overview": "Overview",
+    "okrProgress": "OKR Progress",
+    "teamPerformance": "Team Performance",
+    "recentActivity": "Recent Activity",
+    "upcomingSprints": "Upcoming Sprints"
+  },
+  "okrs": {
+    "title": "OKRs",
+    "objectives": "Objectives",
+    "keyResults": "Key Results",
+    "createOkr": "Create OKR",
+    "parentOkr": "Parent OKR",
+    "childOkrs": "Child OKRs",
+    "progress": "Progress",
+    "status": "Status",
+    "owner": "Owner",
+    "dueDate": "Due Date",
+    "onTrack": "On Track",
+    "atRisk": "At Risk",
+    "behind": "Behind",
+    "completed": "Completed"
+  },
+  "indicators": {
+    "title": "Scrum Indicators",
+    "velocity": "Velocity",
+    "burndown": "Burndown",
+    "burnup": "Burnup",
+    "sprintGoal": "Sprint Goal",
+    "completedStories": "Completed Stories",
+    "plannedStories": "Planned Stories",
+    "selectSprint": "Select Sprint"
+  },
+  "teams": {
+    "title": "Team Manager",
+    "createTeam": "Create Team",
+    "members": "Members",
+    "leader": "Leader",
+    "addMember": "Add Member",
+    "removeMember": "Remove Member",
+    "teamSettings": "Team Settings"
+  },
+  "train": {
+    "title": "Train (ART)",
+    "artName": "ART Name",
+    "piPlanning": "PI Planning",
+    "teams": "Train Teams",
+    "programIncrement": "Program Increment",
+    "features": "Features",
+    "dependencies": "Dependencies"
+  },
+  "backlog": {
+    "title": "Backlog",
+    "createItem": "Create Item",
+    "priority": "Priority",
+    "estimate": "Estimate",
+    "type": "Type",
+    "epic": "Epic",
+    "feature": "Feature",
+    "story": "Story",
+    "task": "Task",
+    "bug": "Bug"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "createPage": "Create Page",
+    "editPage": "Edit Page",
+    "history": "History",
+    "lastUpdated": "Last Updated",
+    "createdBy": "Created by",
+    "searchPages": "Search Pages"
+  },
+  "feed": {
+    "title": "Activity Feed",
+    "allUpdates": "All Updates",
+    "okrUpdates": "OKR Updates",
+    "wikiUpdates": "Wiki Updates",
+    "teamUpdates": "Team Updates",
+    "noUpdates": "No recent updates"
+  },
+  "admin": {
+    "title": "Administration",
+    "users": "Users",
+    "roles": "Roles",
+    "permissions": "Permissions",
+    "auditLog": "Audit Log",
+    "tenantSettings": "Tenant Settings"
+  },
+  "tenants": {
+    "title": "Manage Tenants",
+    "createTenant": "Create Tenant",
+    "tenantName": "Tenant Name",
+    "tenantAdmin": "Administrator",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "suspended": "Suspended"
+  },
+  "roles": {
+    "root": "Root",
+    "admin": "Administrator",
+    "teamLead": "Team Lead",
+    "member": "Member"
+  }
+}

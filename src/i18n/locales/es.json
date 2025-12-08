@@ -1,0 +1,152 @@
+{
+  "common": {
+    "appName": "OKRs View",
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "import": "Importar",
+    "settings": "Configuración",
+    "logout": "Salir",
+    "profile": "Perfil"
+  },
+  "auth": {
+    "login": "Iniciar Sesión",
+    "signup": "Crear Cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "rememberMe": "Recordarme",
+    "loginTitle": "Bienvenido de nuevo",
+    "loginSubtitle": "Ingresa tus credenciales para continuar",
+    "signupTitle": "Crea tu cuenta",
+    "signupSubtitle": "Completa tus datos para comenzar",
+    "passwordRequirements": "Mínimo 10 caracteres, mayúsculas, minúsculas, número y carácter especial",
+    "invalidCredentials": "Credenciales inválidas",
+    "weakPassword": "Contraseña débil. Sigue los requisitos de seguridad."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "okrs": "OKRs",
+    "indicators": "Indicadores",
+    "teams": "Equipos",
+    "train": "Tren (ART)",
+    "backlog": "Backlog",
+    "wiki": "Wiki",
+    "feed": "Feed",
+    "admin": "Administración",
+    "tenants": "Tenants"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Bienvenido a OKRs View",
+    "overview": "Vista General",
+    "okrProgress": "Progreso de OKRs",
+    "teamPerformance": "Rendimiento del Equipo",
+    "recentActivity": "Actividad Reciente",
+    "upcomingSprints": "Próximos Sprints"
+  },
+  "okrs": {
+    "title": "OKRs",
+    "objectives": "Objetivos",
+    "keyResults": "Resultados Clave",
+    "createOkr": "Crear OKR",
+    "parentOkr": "OKR Padre",
+    "childOkrs": "OKRs Hijos",
+    "progress": "Progreso",
+    "status": "Estado",
+    "owner": "Responsable",
+    "dueDate": "Fecha Límite",
+    "onTrack": "En Tiempo",
+    "atRisk": "En Riesgo",
+    "behind": "Atrasado",
+    "completed": "Completado"
+  },
+  "indicators": {
+    "title": "Indicadores Scrum",
+    "velocity": "Velocidad",
+    "burndown": "Burndown",
+    "burnup": "Burnup",
+    "sprintGoal": "Meta del Sprint",
+    "completedStories": "Historias Completadas",
+    "plannedStories": "Historias Planificadas",
+    "selectSprint": "Seleccionar Sprint"
+  },
+  "teams": {
+    "title": "Gestor de Equipos",
+    "createTeam": "Crear Equipo",
+    "members": "Miembros",
+    "leader": "Líder",
+    "addMember": "Agregar Miembro",
+    "removeMember": "Eliminar Miembro",
+    "teamSettings": "Configuración del Equipo"
+  },
+  "train": {
+    "title": "Tren (ART)",
+    "artName": "Nombre del ART",
+    "piPlanning": "PI Planning",
+    "teams": "Equipos del Tren",
+    "programIncrement": "Program Increment",
+    "features": "Features",
+    "dependencies": "Dependencias"
+  },
+  "backlog": {
+    "title": "Backlog",
+    "createItem": "Crear Item",
+    "priority": "Prioridad",
+    "estimate": "Estimación",
+    "type": "Tipo",
+    "epic": "Épico",
+    "feature": "Feature",
+    "story": "Historia",
+    "task": "Tarea",
+    "bug": "Bug"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "createPage": "Crear Página",
+    "editPage": "Editar Página",
+    "history": "Historial",
+    "lastUpdated": "Última Actualización",
+    "createdBy": "Creado por",
+    "searchPages": "Buscar Páginas"
+  },
+  "feed": {
+    "title": "Feed de Actualizaciones",
+    "allUpdates": "Todas las Actualizaciones",
+    "okrUpdates": "Actualizaciones de OKRs",
+    "wikiUpdates": "Actualizaciones de Wiki",
+    "teamUpdates": "Actualizaciones de Equipo",
+    "noUpdates": "Sin actualizaciones recientes"
+  },
+  "admin": {
+    "title": "Administración",
+    "users": "Usuarios",
+    "roles": "Roles",
+    "permissions": "Permisos",
+    "auditLog": "Log de Auditoría",
+    "tenantSettings": "Configuración del Tenant"
+  },
+  "tenants": {
+    "title": "Gestionar Tenants",
+    "createTenant": "Crear Tenant",
+    "tenantName": "Nombre del Tenant",
+    "tenantAdmin": "Administrador",
+    "status": "Estado",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "suspended": "Suspendido"
+  },
+  "roles": {
+    "root": "Root",
+    "admin": "Administrador",
+    "teamLead": "Líder de Equipo",
+    "member": "Miembro"
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "common": {
+    "appName": "OKRs View",
+    "loading": "Carregando...",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "create": "Criar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "import": "Importar",
+    "settings": "Configurações",
+    "logout": "Sair",
+    "profile": "Perfil"
+  },
+  "auth": {
+    "login": "Entrar",
+    "signup": "Criar conta",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha",
+    "forgotPassword": "Esqueceu a senha?",
+    "rememberMe": "Lembrar de mim",
+    "loginTitle": "Bem-vindo de volta",
+    "loginSubtitle": "Entre com suas credenciais para continuar",
+    "signupTitle": "Criar sua conta",
+    "signupSubtitle": "Preencha os dados para começar",
+    "passwordRequirements": "Mínimo 10 caracteres, maiúsculas, minúsculas, número e caractere especial",
+    "invalidCredentials": "Credenciais inválidas",
+    "weakPassword": "Senha fraca. Siga os requisitos de segurança."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "okrs": "OKRs",
+    "indicators": "Indicadores",
+    "teams": "Equipes",
+    "train": "Trem (ART)",
+    "backlog": "Backlog",
+    "wiki": "Wiki",
+    "feed": "Feed",
+    "admin": "Administração",
+    "tenants": "Tenants"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Bem-vindo ao OKRs View",
+    "overview": "Visão Geral",
+    "okrProgress": "Progresso dos OKRs",
+    "teamPerformance": "Desempenho das Equipes",
+    "recentActivity": "Atividade Recente",
+    "upcomingSprints": "Próximas Sprints"
+  },
+  "okrs": {
+    "title": "OKRs",
+    "objectives": "Objetivos",
+    "keyResults": "Resultados-Chave",
+    "createOkr": "Criar OKR",
+    "parentOkr": "OKR Pai",
+    "childOkrs": "OKRs Filhos",
+    "progress": "Progresso",
+    "status": "Status",
+    "owner": "Responsável",
+    "dueDate": "Data Limite",
+    "onTrack": "No Prazo",
+    "atRisk": "Em Risco",
+    "behind": "Atrasado",
+    "completed": "Concluído"
+  },
+  "indicators": {
+    "title": "Indicadores Scrum",
+    "velocity": "Velocidade",
+    "burndown": "Burndown",
+    "burnup": "Burnup",
+    "sprintGoal": "Meta da Sprint",
+    "completedStories": "Histórias Concluídas",
+    "plannedStories": "Histórias Planejadas",
+    "selectSprint": "Selecionar Sprint"
+  },
+  "teams": {
+    "title": "Gestor de Equipes",
+    "createTeam": "Criar Equipe",
+    "members": "Membros",
+    "leader": "Líder",
+    "addMember": "Adicionar Membro",
+    "removeMember": "Remover Membro",
+    "teamSettings": "Configurações da Equipe"
+  },
+  "train": {
+    "title": "Trem (ART)",
+    "artName": "Nome do ART",
+    "piPlanning": "PI Planning",
+    "teams": "Equipes do Trem",
+    "programIncrement": "Program Increment",
+    "features": "Features",
+    "dependencies": "Dependências"
+  },
+  "backlog": {
+    "title": "Backlog",
+    "createItem": "Criar Item",
+    "priority": "Prioridade",
+    "estimate": "Estimativa",
+    "type": "Tipo",
+    "epic": "Épico",
+    "feature": "Feature",
+    "story": "História",
+    "task": "Tarefa",
+    "bug": "Bug"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "createPage": "Criar Página",
+    "editPage": "Editar Página",
+    "history": "Histórico",
+    "lastUpdated": "Última Atualização",
+    "createdBy": "Criado por",
+    "searchPages": "Buscar Páginas"
+  },
+  "feed": {
+    "title": "Feed de Atualizações",
+    "allUpdates": "Todas as Atualizações",
+    "okrUpdates": "Atualizações de OKRs",
+    "wikiUpdates": "Atualizações da Wiki",
+    "teamUpdates": "Atualizações de Equipe",
+    "noUpdates": "Nenhuma atualização recente"
+  },
+  "admin": {
+    "title": "Administração",
+    "users": "Usuários",
+    "roles": "Papéis",
+    "permissions": "Permissões",
+    "auditLog": "Log de Auditoria",
+    "tenantSettings": "Configurações do Tenant"
+  },
+  "tenants": {
+    "title": "Gerenciar Tenants",
+    "createTenant": "Criar Tenant",
+    "tenantName": "Nome do Tenant",
+    "tenantAdmin": "Administrador",
+    "status": "Status",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "suspended": "Suspenso"
+  },
+  "roles": {
+    "root": "Root",
+    "admin": "Administrador",
+    "teamLead": "Líder de Equipe",
+    "member": "Membro"
+  }
+}
