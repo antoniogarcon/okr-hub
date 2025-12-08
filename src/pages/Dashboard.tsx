@@ -1,16 +1,38 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Target, TrendingUp, Users, CheckCircle2 } from 'lucide-react';
+import { 
+  BarChart3, 
+  Download, 
+  Plus, 
+  ChevronDown,
+  Target,
+  TrendingUp,
+  Zap,
+  Clock,
+  AlertCircle
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { useAuth } from '@/contexts/AuthContext';
+import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
+import { StatsCard } from '@/components/dashboard/StatsCard';
+import { TeamProgressCard } from '@/components/dashboard/TeamProgressCard';
+import { DelayedGoalCard } from '@/components/dashboard/DelayedGoalCard';
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: 0.08 },
   },
 };
 
@@ -19,56 +41,99 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
+// Mock data - will be replaced with real data later
+const mockStats = {
+  activeOkrs: {
+    total: 12,
+    completed: 8,
+    inProgress: 4,
+    delayed: 3,
+  },
+  overallProgress: {
+    percentage: 79,
+    change: '+5% desde o último mês',
+  },
+  velocity: {
+    value: 42,
+    storyPoints: 1240,
+    stories: 156,
+  },
+  cycleTime: {
+    value: '4.2d',
+    defectRate: '2.1%',
+    burndown: 'Positivo',
+  },
+};
+
+const mockTeams = [
+  {
+    id: '1',
+    name: 'Produto',
+    initial: 'P',
+    color: 'bg-violet-500',
+    objectives: 4,
+    keyResults: 12,
+    progress: 85,
+    status: 'on-track' as const,
+  },
+  {
+    id: '2',
+    name: 'Engenharia',
+    initial: 'E',
+    color: 'bg-emerald-500',
+    objectives: 3,
+    keyResults: 9,
+    progress: 72,
+    status: 'at-risk' as const,
+  },
+  {
+    id: '3',
+    name: 'Marketing',
+    initial: 'M',
+    color: 'bg-blue-500',
+    objectives: 2,
+    keyResults: 6,
+    progress: 91,
+    status: 'on-track' as const,
+  },
+  {
+    id: '4',
+    name: 'Vendas',
+    initial: 'V',
+    color: 'bg-orange-500',
+    objectives: 3,
+    keyResults: 8,
+    progress: 68,
+    status: 'at-risk' as const,
+  },
+];
+
+const mockDelayedGoals = [
+  {
+    id: '1',
+    name: 'Aumentar conversão em 15%',
+    team: 'Marketing',
+    daysDelayed: 5,
+    priority: 'high' as const,
+  },
+  {
+    id: '2',
+    name: 'Reduzir bugs críticos',
+    team: 'Engenharia',
+    daysDelayed: 3,
+    priority: 'medium' as const,
+  },
+  {
+    id: '3',
+    name: 'Implementar novo CRM',
+    team: 'Vendas',
+    daysDelayed: 8,
+    priority: 'high' as const,
+  },
+];
+
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
-
-  const stats = [
-    { 
-      icon: Target, 
-      label: 'OKRs Ativos', 
-      value: '12', 
-      change: '+2 este mês',
-      color: 'text-primary' 
-    },
-    { 
-      icon: TrendingUp, 
-      label: 'Progresso Médio', 
-      value: '67%', 
-      change: '+8% vs última sprint',
-      color: 'text-success' 
-    },
-    { 
-      icon: Users, 
-      label: 'Equipes', 
-      value: '4', 
-      change: '24 membros',
-      color: 'text-info' 
-    },
-    { 
-      icon: CheckCircle2, 
-      label: 'Concluídos', 
-      value: '8', 
-      change: 'Este trimestre',
-      color: 'text-warning' 
-    },
-  ];
-
-  const recentOkrs = [
-    { name: 'Aumentar NPS em 20 pontos', progress: 75, status: 'on-track' },
-    { name: 'Reduzir tempo de deploy', progress: 45, status: 'at-risk' },
-    { name: 'Implementar CI/CD completo', progress: 90, status: 'on-track' },
-    { name: 'Migrar para nova arquitetura', progress: 30, status: 'behind' },
-  ];
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'on-track': return 'bg-success';
-      case 'at-risk': return 'bg-warning';
-      case 'behind': return 'bg-destructive';
-      default: return 'bg-muted';
-    }
-  };
 
   return (
     <motion.div
@@ -77,91 +142,169 @@ const Dashboard: React.FC = () => {
       animate="visible"
       className="space-y-6"
     >
-      {/* Welcome */}
-      <motion.div variants={itemVariants}>
-        <h1 className="text-3xl font-bold text-foreground">
-          {t('dashboard.welcome')}, {user?.name}!
-        </h1>
-        <p className="mt-1 text-muted-foreground">
-          {t('dashboard.overview')} - Aqui está o resumo das suas atividades
-        </p>
+      {/* Header */}
+      <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+            <BarChart3 className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Dashboard OKRs</h1>
+            <p className="text-sm text-muted-foreground">
+              Visão geral do progresso organizacional
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Select defaultValue="q4-2024">
+            <SelectTrigger className="w-32 bg-card border-border">
+              <SelectValue placeholder="Período" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="q4-2024">Q4 2024</SelectItem>
+              <SelectItem value="q3-2024">Q3 2024</SelectItem>
+              <SelectItem value="q2-2024">Q2 2024</SelectItem>
+              <SelectItem value="q1-2024">Q1 2024</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Button variant="outline" size="icon">
+            <Download className="h-4 w-4" />
+          </Button>
+
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            Novo OKR
+          </Button>
+        </div>
       </motion.div>
 
-      {/* Stats Grid */}
-      <motion.div variants={itemVariants} className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.label} className="glass border-border/50">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <p className="mt-1 text-3xl font-bold text-foreground">{stat.value}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{stat.change}</p>
-                </div>
-                <div className={`rounded-xl bg-muted p-3 ${stat.color}`}>
-                  <stat.icon className="h-6 w-6" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      {/* Stats Cards */}
+      <motion.div variants={itemVariants} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* OKRs Ativos */}
+        <StatsCard
+          title="OKRs Ativos"
+          value={mockStats.activeOkrs.total}
+          icon={Target}
+        >
+          <div className="mt-3 space-y-1 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Concluídos</span>
+              <span className="font-medium text-foreground">{mockStats.activeOkrs.completed}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Em andamento</span>
+              <span className="font-medium text-foreground">{mockStats.activeOkrs.inProgress}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Atrasados</span>
+              <span className="font-medium text-destructive">{mockStats.activeOkrs.delayed}</span>
+            </div>
+          </div>
+        </StatsCard>
+
+        {/* Progresso Geral */}
+        <StatsCard
+          title="Progresso Geral"
+          value={`${mockStats.overallProgress.percentage}%`}
+          valueClassName="text-primary"
+          icon={TrendingUp}
+        >
+          <div className="mt-3 space-y-2">
+            <Progress value={mockStats.overallProgress.percentage} className="h-2" />
+            <p className="text-xs text-success">{mockStats.overallProgress.change}</p>
+          </div>
+        </StatsCard>
+
+        {/* Velocity */}
+        <StatsCard
+          title="Velocity"
+          value={mockStats.velocity.value}
+          icon={Zap}
+        >
+          <div className="mt-3 space-y-1 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Story Points</span>
+              <span className="font-medium text-foreground">{mockStats.velocity.storyPoints}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Histórias</span>
+              <span className="font-medium text-foreground">{mockStats.velocity.stories}</span>
+            </div>
+          </div>
+        </StatsCard>
+
+        {/* Cycle Time */}
+        <StatsCard
+          title="Cycle Time"
+          value={mockStats.cycleTime.value}
+          icon={Clock}
+        >
+          <div className="mt-3 space-y-1 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Taxa de Defeitos</span>
+              <span className="font-medium text-foreground">{mockStats.cycleTime.defectRate}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Burndown</span>
+              <span className="font-medium text-success">{mockStats.cycleTime.burndown}</span>
+            </div>
+          </div>
+        </StatsCard>
       </motion.div>
 
-      {/* Main Content */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Recent OKRs */}
-        <motion.div variants={itemVariants}>
-          <Card className="glass border-border/50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-foreground">
-                <Target className="h-5 w-5 text-primary" />
-                {t('dashboard.okrProgress')}
+      {/* Main Content - Two Columns */}
+      <div className="grid gap-6 lg:grid-cols-5">
+        {/* Team Progress - Left Column (3/5) */}
+        <motion.div variants={itemVariants} className="lg:col-span-3">
+          <Card className="border-border/50 bg-card">
+            <CardHeader className="flex flex-row items-center justify-between pb-4">
+              <CardTitle className="text-lg font-semibold text-foreground">
+                Progresso dos OKRs por Equipe
               </CardTitle>
+              <Button variant="link" className="text-primary p-0 h-auto font-medium">
+                Ver todos
+              </Button>
             </CardHeader>
             <CardContent className="space-y-4">
-              {recentOkrs.map((okr, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-foreground">{okr.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">{okr.progress}%</span>
-                      <div className={`h-2 w-2 rounded-full ${getStatusColor(okr.status)}`} />
-                    </div>
-                  </div>
-                  <Progress value={okr.progress} className="h-2" />
-                </div>
+              {mockTeams.map((team) => (
+                <TeamProgressCard
+                  key={team.id}
+                  name={team.name}
+                  initial={team.initial}
+                  color={team.color}
+                  objectives={team.objectives}
+                  keyResults={team.keyResults}
+                  progress={team.progress}
+                  status={team.status}
+                />
               ))}
             </CardContent>
           </Card>
         </motion.div>
 
-        {/* Recent Activity */}
-        <motion.div variants={itemVariants}>
-          <Card className="glass border-border/50">
-            <CardHeader>
-              <CardTitle className="text-foreground">{t('dashboard.recentActivity')}</CardTitle>
+        {/* Delayed Goals - Right Column (2/5) */}
+        <motion.div variants={itemVariants} className="lg:col-span-2">
+          <Card className="border-border/50 bg-card">
+            <CardHeader className="flex flex-row items-center justify-between pb-4">
+              <CardTitle className="text-lg font-semibold text-foreground">
+                Metas Atrasadas
+              </CardTitle>
+              <Button variant="link" className="text-primary p-0 h-auto font-medium">
+                Gerenciar
+              </Button>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {[
-                  { action: 'OKR atualizado', target: 'Aumentar NPS', time: '2 min atrás', user: 'Maria' },
-                  { action: 'Wiki editada', target: 'Guia de Deploy', time: '15 min atrás', user: 'João' },
-                  { action: 'Sprint concluída', target: 'Sprint 23', time: '1h atrás', user: 'Sistema' },
-                  { action: 'Novo membro', target: 'Equipe Alpha', time: '3h atrás', user: 'Admin' },
-                ].map((activity, index) => (
-                  <div key={index} className="flex items-center gap-3 rounded-lg bg-muted/30 p-3">
-                    <div className="h-2 w-2 rounded-full bg-primary" />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-foreground">
-                        {activity.action}: <span className="text-primary">{activity.target}</span>
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {activity.user} • {activity.time}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <CardContent className="space-y-3">
+              {mockDelayedGoals.map((goal) => (
+                <DelayedGoalCard
+                  key={goal.id}
+                  name={goal.name}
+                  team={goal.team}
+                  daysDelayed={goal.daysDelayed}
+                  priority={goal.priority}
+                />
+              ))}
             </CardContent>
           </Card>
         </motion.div>
