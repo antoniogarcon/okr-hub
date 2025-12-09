@@ -1,33 +1,32 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { z } from 'zod';
-import { Target, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Target, Mail, Lock, Eye, EyeOff, Loader2, User, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
-
-// Strong password validation
-const passwordSchema = z.string()
-  .min(10, 'Mínimo 10 caracteres')
-  .regex(/[A-Z]/, 'Deve conter letra maiúscula')
-  .regex(/[a-z]/, 'Deve conter letra minúscula')
-  .regex(/[0-9]/, 'Deve conter número')
-  .regex(/[^A-Za-z0-9]/, 'Deve conter caractere especial');
-
-const emailSchema = z.string().email('E-mail inválido').max(255);
+import { 
+  loginSchema, 
+  signupSchema, 
+  getPasswordStrength,
+  LoginFormData,
+  SignupFormData 
+} from '@/lib/validations/auth';
 
 const AuthPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { login, signup, isLoading } = useAuth();
+  const location = useLocation();
+  const { login, signup, isLoading, isAuthenticated } = useAuth();
   
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -36,55 +35,103 @@ const AuthPage: React.FC = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validateForm = (isSignup: boolean) => {
-    const newErrors: Record<string, string> = {};
-
-    const emailResult = emailSchema.safeParse(formData.email);
-    if (!emailResult.success) {
-      newErrors.email = emailResult.error.errors[0].message;
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
     }
+  }, [isAuthenticated, navigate, location]);
 
-    const passwordResult = passwordSchema.safeParse(formData.password);
-    if (!passwordResult.success) {
-      newErrors.password = passwordResult.error.errors[0].message;
-    }
+  // Password strength indicator
+  const passwordStrength = getPasswordStrength(formData.password);
 
-    if (isSignup) {
-      if (!formData.name.trim()) {
-        newErrors.name = 'Nome é obrigatório';
-      }
-      if (formData.password !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Senhas não conferem';
-      }
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  // Password requirements checklist
+  const passwordRequirements = [
+    { label: 'Mínimo 10 caracteres', met: formData.password.length >= 10 },
+    { label: 'Letra maiúscula', met: /[A-Z]/.test(formData.password) },
+    { label: 'Letra minúscula', met: /[a-z]/.test(formData.password) },
+    { label: 'Número', met: /[0-9]/.test(formData.password) },
+    { label: 'Caractere especial', met: /[^A-Za-z0-9]/.test(formData.password) },
+  ];
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm(false)) return;
+    setErrors({});
+    
+    const result = loginSchema.safeParse({
+      email: formData.email,
+      password: formData.password,
+    });
 
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
-      await login(formData.email, formData.password);
+      const { error } = await login(formData.email, formData.password);
+      
+      if (error) {
+        if (error.message.includes('Invalid login')) {
+          toast.error('Email ou senha incorretos');
+        } else {
+          toast.error(error.message);
+        }
+        return;
+      }
+      
       toast.success('Login realizado com sucesso!');
-      navigate('/dashboard');
     } catch {
-      toast.error(t('auth.invalidCredentials'));
+      toast.error('Erro ao fazer login');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm(true)) return;
+    setErrors({});
 
+    const result = signupSchema.safeParse({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+    });
+
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
-      await signup(formData.email, formData.password, formData.name);
+      const { error } = await signup(formData.email, formData.password, formData.name);
+      
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      
       toast.success('Conta criada com sucesso!');
-      navigate('/dashboard');
     } catch {
       toast.error('Erro ao criar conta');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -95,6 +142,17 @@ const AuthPage: React.FC = () => {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-muted-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
@@ -146,6 +204,7 @@ const AuthPage: React.FC = () => {
                         onChange={handleChange}
                         className="pl-10 bg-muted/50"
                         placeholder="seu@email.com"
+                        autoComplete="email"
                       />
                     </div>
                     {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
@@ -163,6 +222,7 @@ const AuthPage: React.FC = () => {
                         onChange={handleChange}
                         className="pl-10 pr-10 bg-muted/50"
                         placeholder="••••••••••"
+                        autoComplete="current-password"
                       />
                       <Button
                         type="button"
@@ -177,8 +237,8 @@ const AuthPage: React.FC = () => {
                     {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
                   </div>
 
-                  <Button type="submit" className="w-full glow" disabled={isLoading}>
-                    {isLoading ? (
+                  <Button type="submit" className="w-full glow" disabled={isSubmitting}>
+                    {isSubmitting ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : null}
                     {t('auth.login')}
@@ -194,15 +254,19 @@ const AuthPage: React.FC = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="signup-name">Nome</Label>
-                    <Input
-                      id="signup-name"
-                      name="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="bg-muted/50"
-                      placeholder="Seu nome"
-                    />
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        id="signup-name"
+                        name="name"
+                        type="text"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="pl-10 bg-muted/50"
+                        placeholder="Seu nome"
+                        autoComplete="name"
+                      />
+                    </div>
                     {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
                   </div>
 
@@ -218,6 +282,7 @@ const AuthPage: React.FC = () => {
                         onChange={handleChange}
                         className="pl-10 bg-muted/50"
                         placeholder="seu@email.com"
+                        autoComplete="email"
                       />
                     </div>
                     {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
@@ -235,6 +300,7 @@ const AuthPage: React.FC = () => {
                         onChange={handleChange}
                         className="pl-10 pr-10 bg-muted/50"
                         placeholder="••••••••••"
+                        autoComplete="new-password"
                       />
                       <Button
                         type="button"
@@ -246,7 +312,42 @@ const AuthPage: React.FC = () => {
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
                     </div>
-                    <p className="text-xs text-muted-foreground">{t('auth.passwordRequirements')}</p>
+                    
+                    {/* Password Strength */}
+                    {formData.password && (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Progress 
+                            value={(passwordStrength.score / 6) * 100} 
+                            className="h-1.5 flex-1"
+                            indicatorClassName={passwordStrength.color}
+                          />
+                          <span className={`text-xs font-medium ${
+                            passwordStrength.score <= 2 ? 'text-destructive' :
+                            passwordStrength.score <= 4 ? 'text-warning' : 'text-success'
+                          }`}>
+                            {passwordStrength.label}
+                          </span>
+                        </div>
+                        
+                        {/* Requirements Checklist */}
+                        <div className="grid grid-cols-2 gap-1">
+                          {passwordRequirements.map((req, index) => (
+                            <div key={index} className="flex items-center gap-1.5 text-xs">
+                              {req.met ? (
+                                <Check className="h-3 w-3 text-success" />
+                              ) : (
+                                <X className="h-3 w-3 text-muted-foreground" />
+                              )}
+                              <span className={req.met ? 'text-success' : 'text-muted-foreground'}>
+                                {req.label}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
                     {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
                   </div>
 
@@ -260,12 +361,13 @@ const AuthPage: React.FC = () => {
                       onChange={handleChange}
                       className="bg-muted/50"
                       placeholder="••••••••••"
+                      autoComplete="new-password"
                     />
                     {errors.confirmPassword && <p className="text-xs text-destructive">{errors.confirmPassword}</p>}
                   </div>
 
-                  <Button type="submit" className="w-full glow" disabled={isLoading}>
-                    {isLoading ? (
+                  <Button type="submit" className="w-full glow" disabled={isSubmitting}>
+                    {isSubmitting ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : null}
                     {t('auth.signup')}

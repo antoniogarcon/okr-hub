@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth, UserRole } from '@/contexts/AuthContext';
 import {
   LayoutDashboard,
   Target,
@@ -36,12 +36,12 @@ interface NavItem {
   icon: React.ElementType;
   label: string;
   href: string;
-  roles?: ('root' | 'admin' | 'team_lead' | 'member')[];
+  roles?: UserRole[];
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
   const { t } = useTranslation();
-  const { user, logout } = useAuth();
+  const { profile, logout, hasRole } = useAuth();
   const location = useLocation();
 
   const mainNavItems: NavItem[] = [
@@ -71,7 +71,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
   ];
 
   const filteredAdminItems = adminNavItems.filter(
-    item => !item.roles || (user && item.roles.includes(user.role))
+    item => !item.roles || hasRole(item.roles)
   );
 
   const renderNavItem = (item: NavItem) => {
@@ -116,6 +116,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
     }
 
     return <div key={item.href}>{content}</div>;
+  };
+
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -182,7 +186,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
         )}>
           <Avatar className="h-9 w-9 shrink-0">
             <AvatarFallback className="bg-primary/20 text-primary">
-              {user?.name?.charAt(0).toUpperCase() || 'U'}
+              {profile?.name?.charAt(0).toUpperCase() || 'U'}
             </AvatarFallback>
           </Avatar>
           
@@ -196,16 +200,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
               >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-sidebar-foreground">
-                    {user?.name}
+                    {profile?.name || 'Usuário'}
                   </p>
                   <p className="truncate text-xs text-muted-foreground">
-                    {t(`roles.${user?.role?.replace('_', '')}`)}
+                    {profile?.role ? t(`roles.${profile.role}`) : ''}
                   </p>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
                 >
                   <LogOut className="h-4 w-4" />
