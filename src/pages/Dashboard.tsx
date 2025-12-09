@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   BarChart3, 
@@ -27,6 +28,8 @@ import {
 import { StatsCard } from '@/components/dashboard/StatsCard';
 import { TeamProgressCard } from '@/components/dashboard/TeamProgressCard';
 import { DelayedGoalCard } from '@/components/dashboard/DelayedGoalCard';
+import { SprintChartsCard } from '@/components/dashboard/SprintChartsCard';
+import { FeedNotificationsCard } from '@/components/dashboard/FeedNotificationsCard';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -132,8 +135,70 @@ const mockDelayedGoals = [
   },
 ];
 
+const mockVelocityData = [
+  { sprint: 'S18', planned: 45, completed: 42 },
+  { sprint: 'S19', planned: 48, completed: 45 },
+  { sprint: 'S20', planned: 50, completed: 48 },
+  { sprint: 'S21', planned: 46, completed: 44 },
+  { sprint: 'S22', planned: 52, completed: 42 },
+];
+
+const mockCapacityData = [
+  { name: 'Frontend', value: 85 },
+  { name: 'Backend', value: 72 },
+  { name: 'QA', value: 90 },
+  { name: 'DevOps', value: 65 },
+];
+
+const mockSprintStatus = {
+  name: 'Sprint 22',
+  daysRemaining: 5,
+  progress: 68,
+  status: 'on-track' as const,
+};
+
+const mockNotifications = [
+  {
+    id: '1',
+    type: 'okr_update' as const,
+    title: 'OKR "Aumentar receita" atualizado',
+    description: 'Progresso atualizado de 65% para 72%',
+    timestamp: new Date(Date.now() - 1000 * 60 * 15),
+    read: false,
+    author: { name: 'Maria S.', initial: 'M', color: 'bg-violet-500' },
+  },
+  {
+    id: '2',
+    type: 'wiki_update' as const,
+    title: 'Wiki "Processos de Deploy" editada',
+    description: 'Adicionada nova seção sobre rollback',
+    timestamp: new Date(Date.now() - 1000 * 60 * 45),
+    read: false,
+    author: { name: 'João P.', initial: 'J', color: 'bg-emerald-500' },
+  },
+  {
+    id: '3',
+    type: 'milestone' as const,
+    title: 'Meta atingida: 100 novos clientes',
+    description: 'Equipe de Vendas completou o objetivo Q4',
+    timestamp: new Date(Date.now() - 1000 * 60 * 120),
+    read: true,
+    author: { name: 'Carlos R.', initial: 'C', color: 'bg-orange-500' },
+  },
+  {
+    id: '4',
+    type: 'comment' as const,
+    title: 'Novo comentário em "Reduzir churn"',
+    description: 'Ana comentou sobre a estratégia de retenção',
+    timestamp: new Date(Date.now() - 1000 * 60 * 180),
+    read: true,
+    author: { name: 'Ana L.', initial: 'A', color: 'bg-blue-500' },
+  },
+];
+
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <motion.div
@@ -254,14 +319,14 @@ const Dashboard: React.FC = () => {
         </StatsCard>
       </motion.div>
 
-      {/* Main Content - Two Columns */}
-      <div className="grid gap-6 lg:grid-cols-5">
-        {/* Team Progress - Left Column (3/5) */}
-        <motion.div variants={itemVariants} className="lg:col-span-3">
-          <Card className="border-border/50 bg-card">
+      {/* Main Content - Three Columns */}
+      <div className="grid gap-6 lg:grid-cols-12">
+        {/* Team Progress - Left Column */}
+        <motion.div variants={itemVariants} className="lg:col-span-4">
+          <Card className="border-border/50 bg-card h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-4">
               <CardTitle className="text-lg font-semibold text-foreground">
-                Progresso dos OKRs por Equipe
+                Progresso por Equipe
               </CardTitle>
               <Button variant="link" className="text-primary p-0 h-auto font-medium">
                 Ver todos
@@ -284,8 +349,18 @@ const Dashboard: React.FC = () => {
           </Card>
         </motion.div>
 
-        {/* Delayed Goals - Right Column (2/5) */}
-        <motion.div variants={itemVariants} className="lg:col-span-2">
+        {/* Sprint Charts - Middle Column */}
+        <motion.div variants={itemVariants} className="lg:col-span-4">
+          <SprintChartsCard
+            velocityData={mockVelocityData}
+            capacityData={mockCapacityData}
+            sprintStatus={mockSprintStatus}
+          />
+        </motion.div>
+
+        {/* Right Column - Delayed Goals + Feed */}
+        <motion.div variants={itemVariants} className="lg:col-span-4 space-y-6">
+          {/* Delayed Goals */}
           <Card className="border-border/50 bg-card">
             <CardHeader className="flex flex-row items-center justify-between pb-4">
               <CardTitle className="text-lg font-semibold text-foreground">
@@ -307,6 +382,12 @@ const Dashboard: React.FC = () => {
               ))}
             </CardContent>
           </Card>
+
+          {/* Feed Notifications */}
+          <FeedNotificationsCard
+            notifications={mockNotifications}
+            onViewAll={() => navigate('/feed')}
+          />
         </motion.div>
       </div>
     </motion.div>
