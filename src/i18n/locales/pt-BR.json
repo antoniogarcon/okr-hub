@@ -17,19 +17,48 @@
   },
   "auth": {
     "login": "Entrar",
-    "signup": "Criar conta",
+    "signup": "Cadastrar",
     "email": "E-mail",
     "password": "Senha",
     "confirmPassword": "Confirmar senha",
-    "forgotPassword": "Esqueceu a senha?",
+    "name": "Nome",
+    "forgotPassword": "Esqueci minha senha",
     "rememberMe": "Lembrar de mim",
+    "subtitle": "Faça login para acessar sua conta",
     "loginTitle": "Bem-vindo de volta",
     "loginSubtitle": "Entre com suas credenciais para continuar",
     "signupTitle": "Criar sua conta",
     "signupSubtitle": "Preencha os dados para começar",
     "passwordRequirements": "Mínimo 10 caracteres, maiúsculas, minúsculas, número e caractere especial",
     "invalidCredentials": "Credenciais inválidas",
-    "weakPassword": "Senha fraca. Siga os requisitos de segurança."
+    "weakPassword": "Senha fraca. Siga os requisitos de segurança.",
+    "copyright": "© {{year}} OKRs View. Todos os direitos reservados.",
+    "forgotPasswordMessage": "Funcionalidade de recuperação de senha será implementada em breve.",
+    "placeholders": {
+      "email": "Digite seu e-mail",
+      "password": "Digite sua senha",
+      "confirmPassword": "Confirme sua senha",
+      "name": "Digite seu nome"
+    },
+    "requirements": {
+      "minLength": "Mínimo 10 caracteres",
+      "uppercase": "Letra maiúscula",
+      "lowercase": "Letra minúscula",
+      "number": "Número",
+      "special": "Caractere especial"
+    },
+    "errors": {
+      "invalidCredentials": "E-mail ou senha incorretos",
+      "generic": "Ocorreu um erro. Tente novamente.",
+      "emailRequired": "E-mail é obrigatório",
+      "passwordRequired": "Senha é obrigatória",
+      "invalidEmail": "E-mail inválido",
+      "weakPassword": "Senha não atende aos requisitos de segurança"
+    },
+    "success": {
+      "login": "Login realizado com sucesso!",
+      "signup": "Conta criada com sucesso!"
+    }
   },
   "nav": {
     "dashboard": "Dashboard",

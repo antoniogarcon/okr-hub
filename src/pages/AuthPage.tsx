@@ -2,28 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Target, Mail, Lock, Eye, EyeOff, Loader2, User, Check, X } from 'lucide-react';
+import { BarChart3, Eye, EyeOff, Loader2, User, Check, X, Globe, Accessibility } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { 
   loginSchema, 
   signupSchema, 
   getPasswordStrength,
-  LoginFormData,
-  SignupFormData 
 } from '@/lib/validations/auth';
 
+const LANGUAGES = [
+  { code: 'pt-BR', label: 'PT' },
+  { code: 'en', label: 'EN' },
+  { code: 'es', label: 'ES' },
+];
+
 const AuthPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { login, signup, isLoading, isAuthenticated } = useAuth();
+  const { login, signup, isLoading, isAuthenticated, profile } = useAuth();
   
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,24 +44,28 @@ const AuthPage: React.FC = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Redirect if already authenticated
+  // Redirect based on role after authentication
   useEffect(() => {
-    if (isAuthenticated) {
-      const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
-      navigate(from, { replace: true });
+    if (isAuthenticated && profile) {
+      if (profile.role === 'root') {
+        navigate('/tenants', { replace: true });
+      } else {
+        const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
+        navigate(from, { replace: true });
+      }
     }
-  }, [isAuthenticated, navigate, location]);
+  }, [isAuthenticated, profile, navigate, location]);
 
   // Password strength indicator
   const passwordStrength = getPasswordStrength(formData.password);
 
   // Password requirements checklist
   const passwordRequirements = [
-    { label: 'Mínimo 10 caracteres', met: formData.password.length >= 10 },
-    { label: 'Letra maiúscula', met: /[A-Z]/.test(formData.password) },
-    { label: 'Letra minúscula', met: /[a-z]/.test(formData.password) },
-    { label: 'Número', met: /[0-9]/.test(formData.password) },
-    { label: 'Caractere especial', met: /[^A-Za-z0-9]/.test(formData.password) },
+    { label: t('auth.requirements.minLength'), met: formData.password.length >= 10 },
+    { label: t('auth.requirements.uppercase'), met: /[A-Z]/.test(formData.password) },
+    { label: t('auth.requirements.lowercase'), met: /[a-z]/.test(formData.password) },
+    { label: t('auth.requirements.number'), met: /[0-9]/.test(formData.password) },
+    { label: t('auth.requirements.special'), met: /[^A-Za-z0-9]/.test(formData.password) },
   ];
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -81,16 +94,16 @@ const AuthPage: React.FC = () => {
       
       if (error) {
         if (error.message.includes('Invalid login')) {
-          toast.error('Email ou senha incorretos');
+          toast.error(t('auth.errors.invalidCredentials'));
         } else {
           toast.error(error.message);
         }
         return;
       }
       
-      toast.success('Login realizado com sucesso!');
+      toast.success(t('auth.success.login'));
     } catch {
-      toast.error('Erro ao fazer login');
+      toast.error(t('auth.errors.generic'));
     } finally {
       setIsSubmitting(false);
     }
@@ -127,9 +140,9 @@ const AuthPage: React.FC = () => {
         return;
       }
       
-      toast.success('Conta criada com sucesso!');
+      toast.success(t('auth.success.signup'));
     } catch {
-      toast.error('Erro ao criar conta');
+      toast.error(t('auth.errors.generic'));
     } finally {
       setIsSubmitting(false);
     }
@@ -143,92 +156,116 @@ const AuthPage: React.FC = () => {
     }
   };
 
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
+
+  const currentLanguage = LANGUAGES.find(l => l.code === i18n.language) || LANGUAGES[0];
+
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-auth-background">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-muted-foreground">Carregando...</p>
+          <p className="text-muted-foreground">{t('common.loading')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      {/* Background decoration */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-info/10 blur-3xl" />
+    <div className="min-h-screen flex flex-col bg-auth-background">
+      {/* Top right controls */}
+      <div className="flex justify-end items-center gap-2 p-4">
+        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+          <Accessibility className="h-5 w-5" />
+        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2 bg-background border-border">
+              <Globe className="h-4 w-4" />
+              {currentLanguage.label}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {LANGUAGES.map((lang) => (
+              <DropdownMenuItem
+                key={lang.code}
+                onClick={() => changeLanguage(lang.code)}
+                className={i18n.language === lang.code ? 'bg-accent' : ''}
+              >
+                {lang.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md relative z-10"
-      >
-        {/* Logo */}
-        <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary glow">
-            <Target className="h-7 w-7 text-primary-foreground" />
+      {/* Main content */}
+      <div className="flex-1 flex items-center justify-center px-4 pb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
+          {/* Logo */}
+          <div className="flex flex-col items-center mb-8">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary mb-4">
+              <BarChart3 className="h-8 w-8 text-primary-foreground" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground">OKRs View</h1>
+            <p className="text-muted-foreground mt-1">{t('auth.subtitle')}</p>
           </div>
-          <span className="text-2xl font-bold text-foreground">OKRs View</span>
-        </div>
 
-        <Card className="glass border-border/50">
-          <Tabs defaultValue="login" className="w-full">
-            <CardHeader className="pb-4">
-              <TabsList className="grid w-full grid-cols-2 bg-muted/50">
-                <TabsTrigger value="login">{t('auth.login')}</TabsTrigger>
-                <TabsTrigger value="signup">{t('auth.signup')}</TabsTrigger>
+          {/* Auth Card */}
+          <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
+            <Tabs defaultValue="login" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted">
+                <TabsTrigger value="login" className="data-[state=active]:bg-background">
+                  {t('auth.login')}
+                </TabsTrigger>
+                <TabsTrigger value="signup" className="data-[state=active]:bg-background">
+                  {t('auth.signup')}
+                </TabsTrigger>
               </TabsList>
-            </CardHeader>
 
-            <CardContent>
               {/* Login Tab */}
-              <TabsContent value="login" className="mt-0">
+              <TabsContent value="login" className="mt-0 space-y-4">
                 <form onSubmit={handleLogin} className="space-y-4">
-                  <CardTitle className="text-xl">{t('auth.loginTitle')}</CardTitle>
-                  <CardDescription>{t('auth.loginSubtitle')}</CardDescription>
-
                   <div className="space-y-2">
                     <Label htmlFor="login-email">{t('auth.email')}</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                      <Input
-                        id="login-email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="pl-10 bg-muted/50"
-                        placeholder="seu@email.com"
-                        autoComplete="email"
-                      />
-                    </div>
+                    <Input
+                      id="login-email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="bg-background"
+                      placeholder={t('auth.placeholders.email')}
+                      autoComplete="email"
+                    />
                     {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="login-password">{t('auth.password')}</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         id="login-password"
                         name="password"
                         type={showPassword ? 'text' : 'password'}
                         value={formData.password}
                         onChange={handleChange}
-                        className="pl-10 pr-10 bg-muted/50"
-                        placeholder="••••••••••"
+                        className="bg-background pr-10"
+                        placeholder={t('auth.placeholders.password')}
                         autoComplete="current-password"
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground"
+                        className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -237,33 +274,42 @@ const AuthPage: React.FC = () => {
                     {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
                   </div>
 
-                  <Button type="submit" className="w-full glow" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : null}
+                  <div className="flex justify-end">
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="text-primary p-0 h-auto font-normal text-sm"
+                      onClick={() => toast.info(t('auth.forgotPasswordMessage'))}
+                    >
+                      {t('auth.forgotPassword')}
+                    </Button>
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {t('auth.login')}
                   </Button>
                 </form>
               </TabsContent>
 
               {/* Signup Tab */}
-              <TabsContent value="signup" className="mt-0">
+              <TabsContent value="signup" className="mt-0 space-y-4">
                 <form onSubmit={handleSignup} className="space-y-4">
-                  <CardTitle className="text-xl">{t('auth.signupTitle')}</CardTitle>
-                  <CardDescription>{t('auth.signupSubtitle')}</CardDescription>
-
                   <div className="space-y-2">
-                    <Label htmlFor="signup-name">Nome</Label>
+                    <Label htmlFor="signup-name">{t('auth.name')}</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         id="signup-name"
                         name="name"
                         type="text"
                         value={formData.name}
                         onChange={handleChange}
-                        className="pl-10 bg-muted/50"
-                        placeholder="Seu nome"
+                        className="bg-background"
+                        placeholder={t('auth.placeholders.name')}
                         autoComplete="name"
                       />
                     </div>
@@ -272,41 +318,37 @@ const AuthPage: React.FC = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="signup-email">{t('auth.email')}</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                      <Input
-                        id="signup-email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="pl-10 bg-muted/50"
-                        placeholder="seu@email.com"
-                        autoComplete="email"
-                      />
-                    </div>
+                    <Input
+                      id="signup-email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="bg-background"
+                      placeholder={t('auth.placeholders.email')}
+                      autoComplete="email"
+                    />
                     {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="signup-password">{t('auth.password')}</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         id="signup-password"
                         name="password"
                         type={showPassword ? 'text' : 'password'}
                         value={formData.password}
                         onChange={handleChange}
-                        className="pl-10 pr-10 bg-muted/50"
-                        placeholder="••••••••••"
+                        className="bg-background pr-10"
+                        placeholder={t('auth.placeholders.password')}
                         autoComplete="new-password"
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground"
+                        className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -359,25 +401,32 @@ const AuthPage: React.FC = () => {
                       type="password"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="bg-muted/50"
-                      placeholder="••••••••••"
+                      className="bg-background"
+                      placeholder={t('auth.placeholders.confirmPassword')}
                       autoComplete="new-password"
                     />
                     {errors.confirmPassword && <p className="text-xs text-destructive">{errors.confirmPassword}</p>}
                   </div>
 
-                  <Button type="submit" className="w-full glow" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : null}
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {t('auth.signup')}
                   </Button>
                 </form>
               </TabsContent>
-            </CardContent>
-          </Tabs>
-        </Card>
-      </motion.div>
+            </Tabs>
+          </div>
+
+          {/* Footer */}
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            {t('auth.copyright', { year: new Date().getFullYear() })}
+          </p>
+        </motion.div>
+      </div>
     </div>
   );
 };

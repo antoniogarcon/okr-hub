@@ -17,19 +17,48 @@
   },
   "auth": {
     "login": "Iniciar Sesión",
-    "signup": "Crear Cuenta",
+    "signup": "Registrarse",
     "email": "Correo electrónico",
     "password": "Contraseña",
     "confirmPassword": "Confirmar Contraseña",
-    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "name": "Nombre",
+    "forgotPassword": "Olvidé mi contraseña",
     "rememberMe": "Recordarme",
+    "subtitle": "Inicia sesión para acceder a tu cuenta",
     "loginTitle": "Bienvenido de nuevo",
     "loginSubtitle": "Ingresa tus credenciales para continuar",
     "signupTitle": "Crea tu cuenta",
     "signupSubtitle": "Completa tus datos para comenzar",
     "passwordRequirements": "Mínimo 10 caracteres, mayúsculas, minúsculas, número y carácter especial",
     "invalidCredentials": "Credenciales inválidas",
-    "weakPassword": "Contraseña débil. Sigue los requisitos de seguridad."
+    "weakPassword": "Contraseña débil. Sigue los requisitos de seguridad.",
+    "copyright": "© {{year}} OKRs View. Todos los derechos reservados.",
+    "forgotPasswordMessage": "La función de recuperación de contraseña se implementará pronto.",
+    "placeholders": {
+      "email": "Ingresa tu correo",
+      "password": "Ingresa tu contraseña",
+      "confirmPassword": "Confirma tu contraseña",
+      "name": "Ingresa tu nombre"
+    },
+    "requirements": {
+      "minLength": "Mínimo 10 caracteres",
+      "uppercase": "Letra mayúscula",
+      "lowercase": "Letra minúscula",
+      "number": "Número",
+      "special": "Carácter especial"
+    },
+    "errors": {
+      "invalidCredentials": "Correo o contraseña incorrectos",
+      "generic": "Ocurrió un error. Inténtalo de nuevo.",
+      "emailRequired": "El correo es obligatorio",
+      "passwordRequired": "La contraseña es obligatoria",
+      "invalidEmail": "Correo inválido",
+      "weakPassword": "La contraseña no cumple los requisitos de seguridad"
+    },
+    "success": {
+      "login": "¡Inicio de sesión exitoso!",
+      "signup": "¡Cuenta creada exitosamente!"
+    }
   },
   "nav": {
     "dashboard": "Dashboard",

@@ -10,6 +10,8 @@
     --background: 222 47% 6%;
     --foreground: 210 40% 98%;
 
+    /* Auth page specific - light background */
+    --auth-background: 0 0% 98%;
     --card: 222 47% 8%;
     --card-foreground: 210 40% 98%;
 
@@ -73,6 +75,8 @@
   .light {
     --background: 210 40% 98%;
     --foreground: 222 47% 11%;
+
+    --auth-background: 0 0% 98%;
 
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
