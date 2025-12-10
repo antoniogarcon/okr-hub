@@ -21,15 +21,44 @@
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
-    "forgotPassword": "Forgot password?",
+    "name": "Name",
+    "forgotPassword": "Forgot my password",
     "rememberMe": "Remember me",
+    "subtitle": "Sign in to access your account",
     "loginTitle": "Welcome back",
     "loginSubtitle": "Enter your credentials to continue",
     "signupTitle": "Create your account",
     "signupSubtitle": "Fill in your details to get started",
     "passwordRequirements": "Minimum 10 characters, uppercase, lowercase, number and special character",
     "invalidCredentials": "Invalid credentials",
-    "weakPassword": "Weak password. Follow the security requirements."
+    "weakPassword": "Weak password. Follow the security requirements.",
+    "copyright": "© {{year}} OKRs View. All rights reserved.",
+    "forgotPasswordMessage": "Password recovery feature will be implemented soon.",
+    "placeholders": {
+      "email": "Enter your email",
+      "password": "Enter your password",
+      "confirmPassword": "Confirm your password",
+      "name": "Enter your name"
+    },
+    "requirements": {
+      "minLength": "Minimum 10 characters",
+      "uppercase": "Uppercase letter",
+      "lowercase": "Lowercase letter",
+      "number": "Number",
+      "special": "Special character"
+    },
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "generic": "An error occurred. Please try again.",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "invalidEmail": "Invalid email",
+      "weakPassword": "Password does not meet security requirements"
+    },
+    "success": {
+      "login": "Login successful!",
+      "signup": "Account created successfully!"
+    }
   },
   "nav": {
     "dashboard": "Dashboard",
