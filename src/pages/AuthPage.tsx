@@ -35,6 +35,8 @@ const AuthPage: React.FC = () => {
   const { login, signup, isLoading, isAuthenticated, profile } = useAuth();
   
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState('login');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -141,6 +143,9 @@ const AuthPage: React.FC = () => {
       }
       
       toast.success(t('auth.success.signup'));
+      // Redirect to login after successful signup
+      setActiveTab('login');
+      setFormData({ email: formData.email, password: '', confirmPassword: '', name: '' });
     } catch {
       toast.error(t('auth.errors.generic'));
     } finally {
@@ -215,12 +220,14 @@ const AuthPage: React.FC = () => {
               <BarChart3 className="h-8 w-8 text-primary-foreground" />
             </div>
             <h1 className="text-2xl font-bold text-foreground">OKRs View</h1>
-            <p className="text-muted-foreground mt-1">{t('auth.subtitle')}</p>
+            <p className="text-muted-foreground mt-1">
+              {activeTab === 'login' ? t('auth.subtitle') : t('auth.signupSubtitle')}
+            </p>
           </div>
 
           {/* Auth Card */}
           <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
-            <Tabs defaultValue="login" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted">
                 <TabsTrigger value="login" className="data-[state=active]:bg-background">
                   {t('auth.login')}
@@ -395,16 +402,27 @@ const AuthPage: React.FC = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="signup-confirm">{t('auth.confirmPassword')}</Label>
-                    <Input
-                      id="signup-confirm"
-                      name="confirmPassword"
-                      type="password"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      className="bg-background"
-                      placeholder={t('auth.placeholders.confirmPassword')}
-                      autoComplete="new-password"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="signup-confirm"
+                        name="confirmPassword"
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className="bg-background pr-10"
+                        placeholder={t('auth.placeholders.confirmPassword')}
+                        autoComplete="new-password"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
+                    </div>
                     {errors.confirmPassword && <p className="text-xs text-destructive">{errors.confirmPassword}</p>}
                   </div>
 
@@ -414,8 +432,20 @@ const AuthPage: React.FC = () => {
                     disabled={isSubmitting}
                   >
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {t('auth.signup')}
+                    {t('auth.createAccount')}
                   </Button>
+
+                  <p className="text-center text-sm text-muted-foreground">
+                    {t('auth.hasAccount')}{' '}
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="text-primary p-0 h-auto font-medium"
+                      onClick={() => setActiveTab('login')}
+                    >
+                      {t('auth.doLogin')}
+                    </Button>
+                  </p>
                 </form>
               </TabsContent>
             </Tabs>
