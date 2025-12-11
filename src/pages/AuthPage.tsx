@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { BarChart3, Eye, EyeOff, Loader2, User, Check, X, Globe, Accessibility } from 'lucide-react';
+import { BarChart3, Eye, EyeOff, Loader2, User, Check, X, Globe, Accessibility, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   loginSchema, 
   signupSchema, 
@@ -28,16 +29,21 @@ const LANGUAGES = [
   { code: 'es', label: 'ES' },
 ];
 
+type AuthView = 'auth' | 'forgot-password';
+
 const AuthPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { login, signup, isLoading, isAuthenticated, profile } = useAuth();
   
+  const [currentView, setCurrentView] = useState<AuthView>('auth');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [activeTab, setActiveTab] = useState('login');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+  const [forgotPasswordSent, setForgotPasswordSent] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -161,6 +167,48 @@ const AuthPage: React.FC = () => {
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!forgotPasswordEmail || !forgotPasswordEmail.includes('@')) {
+      setErrors({ forgotEmail: t('auth.errors.invalidEmail') });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      await supabase.functions.invoke('forgot-password', {
+        body: { email: forgotPasswordEmail.trim().toLowerCase() },
+      });
+
+      // Always show success message for security
+      setForgotPasswordSent(true);
+      toast.success(t('auth.forgotPassword.successMessage'));
+      
+      // Redirect to login after 3 seconds
+      setTimeout(() => {
+        setCurrentView('auth');
+        setForgotPasswordSent(false);
+        setForgotPasswordEmail('');
+      }, 3000);
+
+    } catch {
+      // Still show success for security
+      setForgotPasswordSent(true);
+      toast.success(t('auth.forgotPassword.successMessage'));
+      
+      setTimeout(() => {
+        setCurrentView('auth');
+        setForgotPasswordSent(false);
+        setForgotPasswordEmail('');
+      }, 3000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
@@ -219,15 +267,85 @@ const AuthPage: React.FC = () => {
             <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary mb-4">
               <BarChart3 className="h-8 w-8 text-primary-foreground" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground">OKRs View</h1>
-            <p className="text-muted-foreground mt-1">
-              {activeTab === 'login' ? t('auth.subtitle') : t('auth.signupSubtitle')}
+            <h1 className="text-2xl font-bold text-foreground">
+              {currentView === 'forgot-password' ? t('auth.forgotPassword.title') : 'OKRs View'}
+            </h1>
+            <p className="text-muted-foreground mt-1 text-center">
+              {currentView === 'forgot-password' 
+                ? t('auth.forgotPassword.subtitle')
+                : (activeTab === 'login' ? t('auth.subtitle') : t('auth.signupSubtitle'))}
             </p>
           </div>
 
+          {/* Forgot Password View */}
+          {currentView === 'forgot-password' && (
+            <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
+              {forgotPasswordSent ? (
+                <div className="text-center py-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mx-auto mb-4">
+                    <Check className="h-6 w-6 text-primary" />
+                  </div>
+                  <p className="text-foreground font-medium mb-2">
+                    {t('auth.forgotPassword.successTitle')}
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    {t('auth.forgotPassword.successMessage')}
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleForgotPassword} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="forgot-email">{t('auth.email')}</Label>
+                    <Input
+                      id="forgot-email"
+                      type="email"
+                      value={forgotPasswordEmail}
+                      onChange={(e) => {
+                        setForgotPasswordEmail(e.target.value);
+                        if (errors.forgotEmail) {
+                          setErrors(prev => ({ ...prev, forgotEmail: '' }));
+                        }
+                      }}
+                      className="bg-background"
+                      placeholder={t('auth.placeholders.email')}
+                      autoComplete="email"
+                    />
+                    {errors.forgotEmail && <p className="text-xs text-destructive">{errors.forgotEmail}</p>}
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {t('auth.forgotPassword.submit')}
+                  </Button>
+
+                  <p className="text-center text-sm text-muted-foreground">
+                    {t('auth.forgotPassword.rememberedPassword')}{' '}
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="text-primary p-0 h-auto font-medium"
+                      onClick={() => {
+                        setCurrentView('auth');
+                        setForgotPasswordEmail('');
+                        setErrors({});
+                      }}
+                    >
+                      {t('auth.forgotPassword.backToLogin')}
+                    </Button>
+                  </p>
+                </form>
+              )}
+            </div>
+          )}
+
           {/* Auth Card */}
-          <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          {currentView === 'auth' && (
+            <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted">
                 <TabsTrigger value="login" className="data-[state=active]:bg-background">
                   {t('auth.login')}
@@ -286,9 +404,9 @@ const AuthPage: React.FC = () => {
                       type="button"
                       variant="link"
                       className="text-primary p-0 h-auto font-normal text-sm"
-                      onClick={() => toast.info(t('auth.forgotPasswordMessage'))}
+                      onClick={() => setCurrentView('forgot-password')}
                     >
-                      {t('auth.forgotPassword')}
+                      {t('auth.forgotPassword.link')}
                     </Button>
                   </div>
 
@@ -448,8 +566,9 @@ const AuthPage: React.FC = () => {
                   </p>
                 </form>
               </TabsContent>
-            </Tabs>
-          </div>
+              </Tabs>
+            </div>
+          )}
 
           {/* Footer */}
           <p className="text-center text-sm text-muted-foreground mt-6">
