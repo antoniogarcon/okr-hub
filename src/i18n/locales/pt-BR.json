@@ -32,6 +32,19 @@
       "rememberedPassword": "Lembrou da senha?",
       "backToLogin": "Voltar ao login"
     },
+    "resetPassword": {
+      "title": "Redefinir Senha",
+      "subtitle": "Digite a senha que deseja alterar",
+      "newPassword": "Senha",
+      "confirmNewPassword": "Confirmar senha",
+      "submit": "Trocar senha",
+      "successTitle": "Senha alterada!",
+      "successMessage": "Sua senha foi redefinida com sucesso. Redirecionando para o login...",
+      "rememberedPassword": "Lembrou da senha?",
+      "backToLogin": "Voltar ao login",
+      "invalidToken": "Token inválido ou expirado. Solicite uma nova redefinição de senha.",
+      "passwordMismatch": "As senhas não coincidem"
+    },
     "rememberMe": "Lembrar de mim",
     "subtitle": "Faça login para acessar sua conta",
     "signupSubtitle": "Crie sua conta para começar",
