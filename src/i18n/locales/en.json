@@ -32,6 +32,19 @@
       "rememberedPassword": "Remembered your password?",
       "backToLogin": "Back to login"
     },
+    "resetPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter the password you want to set",
+      "newPassword": "Password",
+      "confirmNewPassword": "Confirm password",
+      "submit": "Change password",
+      "successTitle": "Password changed!",
+      "successMessage": "Your password has been reset successfully. Redirecting to login...",
+      "rememberedPassword": "Remembered your password?",
+      "backToLogin": "Back to login",
+      "invalidToken": "Invalid or expired token. Please request a new password reset.",
+      "passwordMismatch": "Passwords do not match"
+    },
     "rememberMe": "Remember me",
     "subtitle": "Sign in to access your account",
     "signupSubtitle": "Create your account to get started",
