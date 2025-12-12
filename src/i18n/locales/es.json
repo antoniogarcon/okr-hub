@@ -81,8 +81,13 @@
     },
     "success": {
       "login": "¡Inicio de sesión exitoso!",
-      "signup": "¡Cuenta creada exitosamente!"
-    }
+      "signup": "¡Cuenta creada exitosamente!",
+      "passwordReset": "¡Contraseña cambiada exitosamente!"
+    },
+    "noTenant": "Sin Organización",
+    "noTenantMessage": "Necesitas pertenecer a una organización para acceder a esta página.",
+    "selectTenant": "Seleccionar Tenant",
+    "selectTenantMessage": "Selecciona una organización para administrar"
   },
   "nav": {
     "dashboard": "Dashboard",

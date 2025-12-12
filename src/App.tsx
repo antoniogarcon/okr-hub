@@ -2,9 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { 
+  ProtectedRoute, 
+  RootOnlyRoute, 
+  AdminRoute 
+} from "@/components/auth/ProtectedRoute";
 import { MainLayout } from "@/components/layout";
 
 // Pages
@@ -25,7 +29,20 @@ import NotFound from "./pages/NotFound";
 // i18n
 import "@/i18n";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: (failureCount, error) => {
+        // Don't retry on 401/403 errors
+        if (error instanceof Error && error.message.includes('401')) {
+          return false;
+        }
+        return failureCount < 3;
+      },
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -47,6 +64,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             >
+              {/* Member Routes - All authenticated users */}
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/okrs" element={<OKRsPage />} />
               <Route path="/indicators" element={<IndicatorsPage />} />
@@ -56,13 +74,13 @@ const App = () => (
               <Route path="/wiki" element={<WikiPage />} />
               <Route path="/feed" element={<FeedPage />} />
               
-              {/* Admin Routes */}
+              {/* Admin Routes - admin + root */}
               <Route
                 path="/admin"
                 element={
-                  <ProtectedRoute allowedRoles={['admin']}>
+                  <AdminRoute>
                     <AdminPage />
-                  </ProtectedRoute>
+                  </AdminRoute>
                 }
               />
               
@@ -70,9 +88,9 @@ const App = () => (
               <Route
                 path="/tenants"
                 element={
-                  <ProtectedRoute allowedRoles={['root']}>
+                  <RootOnlyRoute>
                     <TenantsPage />
-                  </ProtectedRoute>
+                  </RootOnlyRoute>
                 }
               />
             </Route>
