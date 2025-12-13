@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Bell, Search, Globe } from 'lucide-react';
+import { Bell, Search, Globe, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -10,23 +10,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
-
-const languages = [
-  { code: 'pt-BR', label: 'Português (BR)', flag: '🇧🇷' },
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-];
+import { useLanguage, type SupportedLanguage } from '@/hooks/useLanguage';
 
 export const Header: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { tenant } = useAuth();
-
-  const changeLanguage = (code: string) => {
-    i18n.changeLanguage(code);
-    localStorage.setItem('language', code);
-  };
-
-  const currentLanguage = languages.find(l => l.code === i18n.language) || languages[0];
+  const { currentLanguage, setLanguage, supportedLanguages } = useLanguage();
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/80 px-6 backdrop-blur-lg">
@@ -59,19 +48,24 @@ export const Header: React.FC = () => {
         {/* Language Selector */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="text-muted-foreground">
-              <Globe className="h-5 w-5" />
+            <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
+              <Globe className="h-4 w-4" />
+              <span className="text-xs font-medium">
+                {supportedLanguages.find(l => l.code === currentLanguage)?.label || 'PT'}
+              </span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            {languages.map((lang) => (
+            {supportedLanguages.map((lang) => (
               <DropdownMenuItem
                 key={lang.code}
-                onClick={() => changeLanguage(lang.code)}
-                className={i18n.language === lang.code ? 'bg-primary/10 text-primary' : ''}
+                onClick={() => setLanguage(lang.code as SupportedLanguage)}
+                className="flex items-center justify-between"
               >
-                <span className="mr-2">{lang.flag}</span>
-                {lang.label}
+                <span>{lang.name}</span>
+                {currentLanguage === lang.code && (
+                  <Check className="h-4 w-4 text-primary" />
+                )}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
