@@ -9,7 +9,7 @@ interface TeamProgressCardProps {
   objectives: number;
   keyResults: number;
   progress: number;
-  status: 'on-track' | 'at-risk' | 'behind';
+  status: 'on-track' | 'at-risk' | 'behind' | 'delayed';
 }
 
 export const TeamProgressCard: React.FC<TeamProgressCardProps> = ({
@@ -28,6 +28,7 @@ export const TeamProgressCard: React.FC<TeamProgressCardProps> = ({
       case 'at-risk':
         return 'bg-warning';
       case 'behind':
+      case 'delayed':
         return 'bg-destructive';
       default:
         return 'bg-muted';
@@ -41,6 +42,7 @@ export const TeamProgressCard: React.FC<TeamProgressCardProps> = ({
       case 'at-risk':
         return 'bg-warning';
       case 'behind':
+      case 'delayed':
         return 'bg-destructive';
       default:
         return 'bg-primary';

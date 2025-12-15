@@ -1,5 +1,9 @@
 {
   "common": {
+    "period": "Período",
+    "viewAll": "Ver todos",
+    "manage": "Gestionar",
+    "accessDenied": "Acceso Denegado",
     "appName": "OKRs View",
     "loading": "Cargando...",
     "save": "Guardar",
@@ -102,13 +106,35 @@
     "tenants": "Tenants"
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "Dashboard OKRs",
+    "subtitle": "Vista general del progreso organizacional",
     "welcome": "Bienvenido a OKRs View",
     "overview": "Vista General",
     "okrProgress": "Progreso de OKRs",
     "teamPerformance": "Rendimiento del Equipo",
     "recentActivity": "Actividad Reciente",
-    "upcomingSprints": "Próximos Sprints"
+    "upcomingSprints": "Próximos Sprints",
+    "activeOkrs": "OKRs Activos",
+    "completed": "Completados",
+    "atRisk": "En riesgo",
+    "delayed": "Atrasados",
+    "overallProgress": "Progreso General",
+    "progressDescription": "Promedio de todos los OKRs activos",
+    "velocity": "Velocity",
+    "avgVelocity": "Promedio del Tren",
+    "sprintsAnalyzed": "Sprints analizados",
+    "teams": "Equipos",
+    "onTrack": "En tiempo",
+    "needsAttention": "Atención",
+    "critical": "Crítico",
+    "teamProgress": "Progreso por Equipo",
+    "noTeams": "Ningún equipo registrado",
+    "createTeam": "Crear equipo",
+    "delayedGoals": "Metas Atrasadas",
+    "noDelayedGoals": "Ninguna meta atrasada",
+    "newOkr": "Nuevo OKR",
+    "noActiveSprint": "Sin sprint activo",
+    "adminOnly": "Este dashboard es exclusivo para administradores."
   },
   "okrs": {
     "title": "OKRs",
