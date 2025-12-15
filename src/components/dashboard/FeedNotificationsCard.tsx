@@ -15,9 +15,9 @@ import {
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-interface FeedNotification {
+export interface FeedNotification {
   id: string;
-  type: 'okr_update' | 'wiki_update' | 'team_update' | 'comment' | 'milestone';
+  type: 'okr_update' | 'wiki_update' | 'team_update' | 'comment' | 'milestone' | 'sprint_update';
   title: string;
   description: string;
   timestamp: Date;
@@ -26,7 +26,7 @@ interface FeedNotification {
     name: string;
     initial: string;
     color: string;
-  };
+  } | null;
 }
 
 interface FeedNotificationsCardProps {
@@ -40,6 +40,7 @@ const typeIcons = {
   team_update: Users,
   comment: MessageSquare,
   milestone: CheckCircle2,
+  sprint_update: AlertCircle,
 };
 
 const typeColors = {
@@ -48,6 +49,7 @@ const typeColors = {
   team_update: 'text-emerald-500 bg-emerald-500/10',
   comment: 'text-blue-500 bg-blue-500/10',
   milestone: 'text-success bg-success/10',
+  sprint_update: 'text-orange-500 bg-orange-500/10',
 };
 
 export const FeedNotificationsCard: React.FC<FeedNotificationsCardProps> = ({
