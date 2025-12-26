@@ -1,3 +1,156 @@
+
+# 📊 OKRs View
+
+**OKRs View** é uma aplicação web focada em **gestão de OKRs (Objectives and Key Results)** com suporte a **multi-tenancy**, **hierarquia organizacional**, **segurança avançada** e **visualização clara do alinhamento estratégico** entre objetivos corporativos, times e indivíduos.
+
+O projeto foi pensado para empresas que desejam acompanhar resultados de forma estruturada, segura e escalável.
+
+---
+
+## 🎯 Objetivo do Projeto
+
+Criar uma plataforma simples e poderosa para:
+
+* Definir OKRs organizacionais, de times e individuais
+* Visualizar a relação entre OKRs pai e OKRs filhas
+* Garantir alinhamento estratégico entre áreas
+* Controlar acesso por papéis (roles)
+* Proteger informações sensíveis por tenant
+
+---
+
+## 🏗️ Arquitetura Conceitual
+
+* **Multi-tenant**: cada empresa (tenant) possui dados totalmente isolados
+* **Root User**: usuário global com acesso administrativo a todos os tenants
+* **Tenant Admin**: administrador da empresa
+* **Team Leader**: líder de equipe
+* **Team Member**: colaborador
+
+---
+
+## 👥 Papéis e Permissões
+
+### 🔑 Root
+
+* Gerencia todos os tenants
+* Acesso total à aplicação
+
+### 🛠️ Tenant Admin
+
+* Gerencia usuários do próprio tenant
+* Cria e edita equipes
+* Cria OKRs organizacionais
+* Visualiza todos os OKRs do tenant
+
+### 👨‍💼 Team Leader
+
+* Cria e gerencia OKRs do seu time
+* Visualiza OKRs do time e OKRs pai
+
+### 👤 Team Member
+
+* Visualiza OKRs relacionados
+* Atualiza progresso dos Key Results atribuídos
+
+---
+
+## 🧩 Funcionalidades Principais
+
+### ✅ Gestão de OKRs
+
+* Criação de Objectives e Key Results
+* Definição de métricas e progresso
+* Status automático baseado no avanço
+
+### 🔗 Hierarquia de OKRs
+
+* Relacionamento entre OKR pai e OKRs filhas
+* Visualização em árvore (organizacional → time → individual)
+
+### 👥 Gestão de Usuários
+
+* Convite por e-mail
+* Ativação segura de conta
+* Controle por papéis (roles)
+* Associação a equipes
+
+### 🏢 Gestão de Equipes
+
+* Criação e edição de times
+* Associação de usuários
+* Vinculação de OKRs por equipe
+
+---
+
+## 🔐 Segurança
+
+* Isolamento total de dados por tenant
+* Controle de acesso baseado em papéis (RBAC)
+* Senhas com regras fortes:
+
+  * Letras maiúsculas e minúsculas
+  * Números
+  * Caracteres especiais
+* Hash seguro de senhas
+* Logs de auditoria para ações críticas
+
+---
+
+## 🌍 Internacionalização (i18n)
+
+A aplicação suporta múltiplos idiomas:
+
+* 🇧🇷 Português (Brasil)
+* 🇺🇸 Inglês
+* 🇪🇸 Espanhol
+
+O idioma é configurável por usuário.
+
+---
+
+## 🎨 Design e UX
+
+* Interfaces desenhadas no **Figma**
+* Layout limpo e orientado a produto
+* Experiência focada em clareza e produtividade
+* Telas reutilizadas como referência visual no desenvolvimento
+
+---
+
+## 🤖 Ferramentas Utilizadas
+
+* **Lovable** — geração e evolução da aplicação via prompts
+* **Figma** — design e prototipação das telas
+* **GitHub** — versionamento e documentação
+
+---
+
+## 🚀 Status do Projeto
+
+🟡 **Em desenvolvimento ativo**
+
+* [x] Definição funcional
+* [x] Modelagem de usuários e permissões
+* [x] Design das telas
+* [x] Estrutura de prompts para geração no Lovable
+* [ ] Implementação final
+* [ ] Testes e ajustes
+
+---
+
+## 📌 Próximos Passos
+
+* Implementação de dashboards e métricas visuais
+* Exportação de relatórios
+* Histórico de progresso de OKRs
+* Notificações e lembretes
+
+
+
+
+
+
 # Welcome to your Lovable project
 
 ## Project info
