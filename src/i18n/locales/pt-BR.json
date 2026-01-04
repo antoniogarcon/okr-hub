@@ -211,11 +211,53 @@
   },
   "admin": {
     "title": "Administração",
+    "subtitle": "Gerencie usuários, permissões e configurações do tenant",
     "users": "Usuários",
     "roles": "Papéis",
     "permissions": "Permissões",
     "auditLog": "Log de Auditoria",
-    "tenantSettings": "Configurações do Tenant"
+    "tenantSettings": "Configurações do Tenant",
+    "rolesDescription": "Configure papéis e permissões",
+    "auditLogDescription": "Histórico de ações do sistema",
+    "auditLogPlaceholder": "Log de auditoria será implementado aqui",
+    "userManagement": {
+      "title": "Gestão de Usuários",
+      "description": "Gerencie os usuários do seu tenant",
+      "createUser": "Criar Usuário",
+      "editUser": "Editar Usuário",
+      "createUserDesc": "Preencha os dados para convidar um novo usuário.",
+      "editUserDesc": "Atualize os dados do usuário.",
+      "name": "Nome",
+      "namePlaceholder": "Ex: João Silva",
+      "email": "Email",
+      "emailPlaceholder": "Ex: joao@empresa.com",
+      "role": "Papel",
+      "selectRole": "Selecione um papel",
+      "team": "Equipe",
+      "selectTeam": "Selecione uma equipe",
+      "noTeam": "Sem equipe",
+      "status": "Status",
+      "actions": "Ações",
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "activate": "Ativar",
+      "deactivate": "Desativar",
+      "sendInvite": "Enviar Convite",
+      "searchPlaceholder": "Buscar usuários...",
+      "noUsers": "Nenhum usuário encontrado",
+      "noUsersDesc": "Comece adicionando usuários ao seu tenant.",
+      "roles": {
+        "root": "Root",
+        "admin": "Administrador",
+        "leader": "Líder de Equipe",
+        "member": "Membro"
+      }
+    },
+    "roleDescriptions": {
+      "admin": "Gerencia todos os usuários, equipes e configurações do tenant.",
+      "leader": "Gerencia OKRs e membros da sua equipe.",
+      "member": "Visualiza OKRs e atualiza o progresso de tarefas atribuídas."
+    }
   },
   "tenants": {
     "title": "Gerenciar Tenants",
