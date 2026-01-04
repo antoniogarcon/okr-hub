@@ -211,11 +211,53 @@
   },
   "admin": {
     "title": "Administration",
+    "subtitle": "Manage users, permissions and tenant settings",
     "users": "Users",
     "roles": "Roles",
     "permissions": "Permissions",
     "auditLog": "Audit Log",
-    "tenantSettings": "Tenant Settings"
+    "tenantSettings": "Tenant Settings",
+    "rolesDescription": "Configure roles and permissions",
+    "auditLogDescription": "System action history",
+    "auditLogPlaceholder": "Audit log will be implemented here",
+    "userManagement": {
+      "title": "User Management",
+      "description": "Manage users in your tenant",
+      "createUser": "Create User",
+      "editUser": "Edit User",
+      "createUserDesc": "Fill in the details to invite a new user.",
+      "editUserDesc": "Update user details.",
+      "name": "Name",
+      "namePlaceholder": "E.g.: John Doe",
+      "email": "Email",
+      "emailPlaceholder": "E.g.: john@company.com",
+      "role": "Role",
+      "selectRole": "Select a role",
+      "team": "Team",
+      "selectTeam": "Select a team",
+      "noTeam": "No team",
+      "status": "Status",
+      "actions": "Actions",
+      "active": "Active",
+      "inactive": "Inactive",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "sendInvite": "Send Invite",
+      "searchPlaceholder": "Search users...",
+      "noUsers": "No users found",
+      "noUsersDesc": "Start by adding users to your tenant.",
+      "roles": {
+        "root": "Root",
+        "admin": "Administrator",
+        "leader": "Team Leader",
+        "member": "Member"
+      }
+    },
+    "roleDescriptions": {
+      "admin": "Manages all users, teams, and tenant settings.",
+      "leader": "Manages OKRs and team members.",
+      "member": "Views OKRs and updates assigned task progress."
+    }
   },
   "tenants": {
     "title": "Manage Tenants",

@@ -211,11 +211,53 @@
   },
   "admin": {
     "title": "Administración",
+    "subtitle": "Gestiona usuarios, permisos y configuración del tenant",
     "users": "Usuarios",
     "roles": "Roles",
     "permissions": "Permisos",
     "auditLog": "Log de Auditoría",
-    "tenantSettings": "Configuración del Tenant"
+    "tenantSettings": "Configuración del Tenant",
+    "rolesDescription": "Configura roles y permisos",
+    "auditLogDescription": "Historial de acciones del sistema",
+    "auditLogPlaceholder": "Log de auditoría será implementado aquí",
+    "userManagement": {
+      "title": "Gestión de Usuarios",
+      "description": "Gestiona los usuarios de tu tenant",
+      "createUser": "Crear Usuario",
+      "editUser": "Editar Usuario",
+      "createUserDesc": "Completa los datos para invitar a un nuevo usuario.",
+      "editUserDesc": "Actualiza los datos del usuario.",
+      "name": "Nombre",
+      "namePlaceholder": "Ej: Juan García",
+      "email": "Email",
+      "emailPlaceholder": "Ej: juan@empresa.com",
+      "role": "Rol",
+      "selectRole": "Selecciona un rol",
+      "team": "Equipo",
+      "selectTeam": "Selecciona un equipo",
+      "noTeam": "Sin equipo",
+      "status": "Estado",
+      "actions": "Acciones",
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "sendInvite": "Enviar Invitación",
+      "searchPlaceholder": "Buscar usuarios...",
+      "noUsers": "Ningún usuario encontrado",
+      "noUsersDesc": "Comienza agregando usuarios a tu tenant.",
+      "roles": {
+        "root": "Root",
+        "admin": "Administrador",
+        "leader": "Líder de Equipo",
+        "member": "Miembro"
+      }
+    },
+    "roleDescriptions": {
+      "admin": "Gestiona todos los usuarios, equipos y configuración del tenant.",
+      "leader": "Gestiona OKRs y miembros de su equipo.",
+      "member": "Visualiza OKRs y actualiza el progreso de tareas asignadas."
+    }
   },
   "tenants": {
     "title": "Gestionar Tenants",
