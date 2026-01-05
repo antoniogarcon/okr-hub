@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Bell, Target, BookOpen, Users, CheckCircle } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Bell, Settings } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/contexts/AuthContext';
+import { useFeedEvents, useFeedStats, FeedFilter } from '@/hooks/useFeedData';
+import { FeedFilters, FeedStats, FeedList } from '@/components/feed';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -16,56 +19,92 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
+const PAGE_SIZE = 10;
+
 const FeedPage: React.FC = () => {
   const { t } = useTranslation();
+  const { getTenantId, hasMinimumRole } = useAuth();
+  const tenantId = getTenantId();
 
-  const feedItems = [
-    {
-      id: '1',
-      type: 'okr',
-      action: 'OKR atualizado',
-      target: 'Aumentar NPS em 20 pontos',
-      user: 'Maria Silva',
-      time: '5 min atrás',
-      icon: Target,
-    },
-    {
-      id: '2',
-      type: 'wiki',
-      action: 'Página editada',
-      target: 'Guia de Onboarding',
-      user: 'João Costa',
-      time: '15 min atrás',
-      icon: BookOpen,
-    },
-    {
-      id: '3',
-      type: 'team',
-      action: 'Novo membro adicionado',
-      target: 'Equipe Alpha',
-      user: 'Admin',
-      time: '1h atrás',
-      icon: Users,
-    },
-    {
-      id: '4',
-      type: 'okr',
-      action: 'Key Result concluído',
-      target: 'Automatizar 80% dos deploys',
-      user: 'Carlos Mendes',
-      time: '2h atrás',
-      icon: CheckCircle,
-    },
-  ];
+  const [activeFilter, setActiveFilter] = useState<FeedFilter>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [sortOrder, setSortOrder] = useState<'recent' | 'oldest'>('recent');
+  const [page, setPage] = useState(1);
 
-  const getTypeColor = (type: string) => {
-    const colors: Record<string, string> = {
-      okr: 'text-primary bg-primary/10',
-      wiki: 'text-info bg-info/10',
-      team: 'text-success bg-success/10',
-    };
-    return colors[type] || 'text-muted-foreground bg-muted';
-  };
+  // Debounce search
+  const handleSearchChange = useCallback((query: string) => {
+    setSearchQuery(query);
+    setPage(1);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(query);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleFilterChange = useCallback((filter: FeedFilter) => {
+    setActiveFilter(filter);
+    setPage(1);
+  }, []);
+
+  const handleSortChange = useCallback((order: 'recent' | 'oldest') => {
+    setSortOrder(order);
+    setPage(1);
+  }, []);
+
+  const { data: feedData, isLoading: isLoadingEvents } = useFeedEvents(
+    tenantId,
+    activeFilter,
+    debouncedSearch,
+    page,
+    PAGE_SIZE
+  );
+
+  const { data: stats, isLoading: isLoadingStats } = useFeedStats(tenantId);
+
+  // Handle pagination - accumulate events for "load more"
+  const [allEvents, setAllEvents] = useState<typeof feedData['events']>([]);
+  
+  React.useEffect(() => {
+    if (feedData?.events) {
+      if (page === 1) {
+        setAllEvents(feedData.events);
+      } else {
+        setAllEvents(prev => [...prev, ...feedData.events]);
+      }
+    }
+  }, [feedData, page]);
+
+  // Reset events when filter/search changes
+  React.useEffect(() => {
+    setAllEvents([]);
+  }, [activeFilter, debouncedSearch]);
+
+  const sortedEvents = useMemo(() => {
+    if (sortOrder === 'oldest') {
+      return [...allEvents].reverse();
+    }
+    return allEvents;
+  }, [allEvents, sortOrder]);
+
+  const hasMore = feedData ? allEvents.length < feedData.totalCount : false;
+
+  const handleLoadMore = useCallback(() => {
+    setPage(prev => prev + 1);
+  }, []);
+
+  // Check access
+  if (!hasMinimumRole('member')) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Card className="p-8 text-center">
+          <h2 className="text-lg font-semibold text-foreground mb-2">
+            {t('common.accessDenied')}
+          </h2>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -75,79 +114,56 @@ const FeedPage: React.FC = () => {
       className="space-y-6"
     >
       {/* Header */}
-      <motion.div variants={itemVariants}>
-        <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
-          <Bell className="h-8 w-8 text-primary" />
-          {t('feed.title')}
-        </h1>
-        <p className="mt-1 text-muted-foreground">
-          Acompanhe todas as atualizações em tempo real
-        </p>
+      <motion.div variants={itemVariants} className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-primary/10">
+            <Bell className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">
+              {t('feed.pageTitle')}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              {t('feed.pageSubtitle')}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm">
+            <Settings className="h-4 w-4 mr-2" />
+            {t('feed.settings')}
+          </Button>
+        </div>
       </motion.div>
 
-      {/* Tabs */}
-      <motion.div variants={itemVariants}>
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList className="bg-muted/50">
-            <TabsTrigger value="all">{t('feed.allUpdates')}</TabsTrigger>
-            <TabsTrigger value="okrs">{t('feed.okrUpdates')}</TabsTrigger>
-            <TabsTrigger value="wiki">{t('feed.wikiUpdates')}</TabsTrigger>
-            <TabsTrigger value="teams">{t('feed.teamUpdates')}</TabsTrigger>
-          </TabsList>
+      {/* Main Content */}
+      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Sidebar */}
+        <div className="lg:col-span-1">
+          <Card className="p-4 space-y-6 sticky top-6">
+            <FeedFilters
+              activeFilter={activeFilter}
+              onFilterChange={handleFilterChange}
+            />
+            <Separator />
+            <FeedStats stats={stats} isLoading={isLoadingStats} />
+          </Card>
+        </div>
 
-          <TabsContent value="all" className="mt-6">
-            <Card className="glass border-border/50">
-              <CardHeader>
-                <CardTitle className="text-foreground">Atividades Recentes</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {feedItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex items-start gap-4 rounded-lg bg-muted/30 p-4"
-                  >
-                    <div className={`rounded-lg p-2 ${getTypeColor(item.type)}`}>
-                      <item.icon className="h-5 w-5" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-foreground">
-                        {item.action}: <span className="text-primary">{item.target}</span>
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Avatar className="h-5 w-5">
-                          <AvatarFallback className="text-xs bg-primary/20 text-primary">
-                            {item.user.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="text-sm text-muted-foreground">
-                          {item.user} • {item.time}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="okrs" className="mt-6">
-            <Card className="glass border-border/50 p-8 text-center">
-              <p className="text-muted-foreground">{t('feed.okrUpdates')}</p>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="wiki" className="mt-6">
-            <Card className="glass border-border/50 p-8 text-center">
-              <p className="text-muted-foreground">{t('feed.wikiUpdates')}</p>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="teams" className="mt-6">
-            <Card className="glass border-border/50 p-8 text-center">
-              <p className="text-muted-foreground">{t('feed.teamUpdates')}</p>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        {/* Feed List */}
+        <div className="lg:col-span-3">
+          <FeedList
+            events={sortedEvents}
+            isLoading={isLoadingEvents && page === 1}
+            searchQuery={searchQuery}
+            onSearchChange={handleSearchChange}
+            sortOrder={sortOrder}
+            onSortChange={handleSortChange}
+            hasMore={hasMore}
+            onLoadMore={handleLoadMore}
+            isLoadingMore={isLoadingEvents && page > 1}
+          />
+        </div>
       </motion.div>
     </motion.div>
   );

@@ -203,11 +203,45 @@
   },
   "feed": {
     "title": "Feed de Actualizaciones",
+    "pageTitle": "Feed OKRs",
+    "pageSubtitle": "Sigue las actualizaciones en tiempo real",
     "allUpdates": "Todas las Actualizaciones",
     "okrUpdates": "Actualizaciones de OKRs",
     "wikiUpdates": "Actualizaciones de Wiki",
     "teamUpdates": "Actualizaciones de Equipo",
-    "noUpdates": "Sin actualizaciones recientes"
+    "noUpdates": "Sin actualizaciones",
+    "noUpdatesDesc": "Cuando haya actividades en tu tenant, aparecerán aquí.",
+    "searchPlaceholder": "Buscar actualizaciones...",
+    "sortBy": "Ordenar por:",
+    "sortRecent": "Más reciente",
+    "sortOldest": "Más antiguo",
+    "loadMore": "Cargar más actualizaciones",
+    "viewDetails": "Ver detalles",
+    "settings": "Configuración",
+    "filters": {
+      "title": "Filtros",
+      "all": "Todas las actualizaciones",
+      "okrProgress": "Progreso OKRs",
+      "okrChanges": "Cambios OKRs",
+      "teams": "Equipos",
+      "capacity": "Capacidad",
+      "wiki": "Wiki"
+    },
+    "stats": {
+      "title": "Estadísticas",
+      "updatesToday": "Actualizaciones hoy",
+      "okrsUpdated": "OKRs actualizados",
+      "activeTeams": "Equipos activos",
+      "avgProgress": "Progreso promedio"
+    },
+    "badges": {
+      "okrProgress": "Progreso OKR",
+      "okrChange": "Cambio OKR",
+      "capacity": "Capacidad",
+      "wiki": "Wiki",
+      "team": "Actualización Equipo",
+      "update": "Actualización"
+    }
   },
   "admin": {
     "title": "Administración",

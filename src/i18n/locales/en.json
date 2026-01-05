@@ -203,11 +203,45 @@
   },
   "feed": {
     "title": "Activity Feed",
+    "pageTitle": "OKRs Feed",
+    "pageSubtitle": "Track updates in real time",
     "allUpdates": "All Updates",
     "okrUpdates": "OKR Updates",
     "wikiUpdates": "Wiki Updates",
     "teamUpdates": "Team Updates",
-    "noUpdates": "No recent updates"
+    "noUpdates": "No updates",
+    "noUpdatesDesc": "When there are activities in your tenant, they will appear here.",
+    "searchPlaceholder": "Search updates...",
+    "sortBy": "Sort by:",
+    "sortRecent": "Most recent",
+    "sortOldest": "Oldest",
+    "loadMore": "Load more updates",
+    "viewDetails": "View details",
+    "settings": "Settings",
+    "filters": {
+      "title": "Filters",
+      "all": "All updates",
+      "okrProgress": "OKR Progress",
+      "okrChanges": "OKR Changes",
+      "teams": "Teams",
+      "capacity": "Capacity",
+      "wiki": "Wiki"
+    },
+    "stats": {
+      "title": "Statistics",
+      "updatesToday": "Updates today",
+      "okrsUpdated": "OKRs updated",
+      "activeTeams": "Active teams",
+      "avgProgress": "Average progress"
+    },
+    "badges": {
+      "okrProgress": "OKR Progress",
+      "okrChange": "OKR Change",
+      "capacity": "Capacity",
+      "wiki": "Wiki",
+      "team": "Team Update",
+      "update": "Update"
+    }
   },
   "admin": {
     "title": "Administration",
