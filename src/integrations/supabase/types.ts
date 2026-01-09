@@ -424,6 +424,150 @@ export type Database = {
         }
         Relationships: []
       }
+      wiki_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+          sort_order: number | null
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number | null
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number | null
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wiki_categories_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wiki_documents: {
+        Row: {
+          author_id: string | null
+          category_id: string | null
+          content: string
+          created_at: string
+          id: string
+          is_deleted: boolean
+          tenant_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          category_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          is_deleted?: boolean
+          tenant_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          category_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          is_deleted?: boolean
+          tenant_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wiki_documents_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wiki_documents_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "wiki_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wiki_documents_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wiki_versions: {
+        Row: {
+          author_id: string | null
+          content: string
+          created_at: string
+          document_id: string
+          id: string
+          title: string
+          version_number: number
+        }
+        Insert: {
+          author_id?: string | null
+          content: string
+          created_at?: string
+          document_id: string
+          id?: string
+          title: string
+          version_number: number
+        }
+        Update: {
+          author_id?: string | null
+          content?: string
+          created_at?: string
+          document_id?: string
+          id?: string
+          title?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wiki_versions_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wiki_versions_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "wiki_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
