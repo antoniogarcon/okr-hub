@@ -332,6 +332,42 @@ export type Database = {
           },
         ]
       }
+      team_members: {
+        Row: {
+          id: string
+          joined_at: string
+          team_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          team_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          team_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       teams: {
         Row: {
           color: string | null
@@ -339,6 +375,7 @@ export type Database = {
           description: string | null
           id: string
           is_active: boolean
+          leader_id: string | null
           name: string
           slug: string
           tenant_id: string
@@ -350,6 +387,7 @@ export type Database = {
           description?: string | null
           id?: string
           is_active?: boolean
+          leader_id?: string | null
           name: string
           slug: string
           tenant_id: string
@@ -361,12 +399,20 @@ export type Database = {
           description?: string | null
           id?: string
           is_active?: boolean
+          leader_id?: string | null
           name?: string
           slug?: string
           tenant_id?: string
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "teams_leader_id_fkey"
+            columns: ["leader_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "teams_tenant_id_fkey"
             columns: ["tenant_id"]
