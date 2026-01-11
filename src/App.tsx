@@ -15,6 +15,7 @@ import { MainLayout } from "@/components/layout";
 import Index from "./pages/Index";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
+import TeamLeaderDashboardPage from "./pages/TeamLeaderDashboardPage";
 import OKRsPage from "./pages/OKRsPage";
 import IndicatorsPage from "./pages/IndicatorsPage";
 import TeamsPage from "./pages/TeamsPage";
@@ -66,6 +67,7 @@ const App = () => (
             >
               {/* Member Routes - All authenticated users */}
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/team-dashboard" element={<TeamLeaderDashboardPage />} />
               <Route path="/okrs" element={<OKRsPage />} />
               <Route path="/indicators" element={<IndicatorsPage />} />
               <Route path="/teams" element={<TeamsPage />} />

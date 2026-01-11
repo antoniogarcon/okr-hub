@@ -45,10 +45,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
   const location = useLocation();
 
   const mainNavItems: NavItem[] = [
-    { icon: LayoutDashboard, label: t('nav.dashboard'), href: '/dashboard' },
+    { icon: LayoutDashboard, label: t('nav.dashboard'), href: '/dashboard', roles: ['admin', 'root'] },
+    { icon: LayoutDashboard, label: t('teamLeaderDashboard.title'), href: '/team-dashboard', roles: ['leader'] },
     { icon: Target, label: t('nav.okrs'), href: '/okrs' },
     { icon: BarChart3, label: t('nav.indicators'), href: '/indicators' },
-    { icon: Users, label: t('nav.teams'), href: '/teams' },
+    { icon: Users, label: t('nav.teams'), href: '/teams', roles: ['admin', 'root', 'leader'] },
     { icon: Train, label: t('nav.train'), href: '/train' },
     { icon: ListTodo, label: t('nav.backlog'), href: '/backlog' },
     { icon: BookOpen, label: t('nav.wiki'), href: '/wiki' },
@@ -69,6 +70,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       roles: ['root'],
     },
   ];
+
+  const filteredMainItems = mainNavItems.filter(
+    item => !item.roles || hasRole(item.roles)
+  );
 
   const filteredAdminItems = adminNavItems.filter(
     item => !item.roles || hasRole(item.roles)
@@ -168,7 +173,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 overflow-y-auto p-3">
-        {mainNavItems.map(renderNavItem)}
+        {filteredMainItems.map(renderNavItem)}
         
         {filteredAdminItems.length > 0 && (
           <>
