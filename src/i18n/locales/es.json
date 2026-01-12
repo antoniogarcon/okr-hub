@@ -539,5 +539,30 @@
     "noTeamAssigned": "Sin equipo asignado",
     "noTeamAssignedDescription": "Aún no has sido asignado como líder de ningún equipo. Contacta al administrador.",
     "adminViewDescription": "Selecciona un equipo para ver como líder."
+  },
+  "memberDashboard": {
+    "title": "Mi Dashboard",
+    "myOkrs": "Mis OKRs",
+    "myKeyResults": "Mis Key Results",
+    "currentSprint": "Sprint Actual",
+    "noOkrsAssigned": "No hay OKRs asignados",
+    "noKeyResultsAssigned": "No hay Key Results asignados",
+    "noActiveSprint": "Sin sprint activo",
+    "assigned": "asignados",
+    "lastUpdated": "Actualizado",
+    "viewMoreOkrs": "+{{count}} OKRs",
+    "viewMetrics": "Ver métricas",
+    "welcomeBack": "Bienvenido, {{name}}!",
+    "noTeamAssigned": "Sin equipo asignado",
+    "viewMode": "Modo Vista",
+    "accessDeniedDescription": "No tienes permiso para acceder a este dashboard.",
+    "loadError": "Error al cargar datos del dashboard.",
+    "quickLinks": {
+      "title": "Accesos Rápidos",
+      "wiki": "Wiki",
+      "wikiDesc": "Base de conocimiento",
+      "feed": "Feed",
+      "feedDesc": "Actualizaciones recientes"
+    }
   }
 }

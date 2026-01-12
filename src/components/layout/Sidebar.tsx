@@ -17,6 +17,7 @@ import {
   Building2,
   ChevronLeft,
   LogOut,
+  User,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -47,6 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
   const mainNavItems: NavItem[] = [
     { icon: LayoutDashboard, label: t('nav.dashboard'), href: '/dashboard', roles: ['admin', 'root'] },
     { icon: LayoutDashboard, label: t('teamLeaderDashboard.title'), href: '/team-dashboard', roles: ['leader'] },
+    { icon: User, label: t('memberDashboard.title'), href: '/my-dashboard', roles: ['member'] },
     { icon: Target, label: t('nav.okrs'), href: '/okrs' },
     { icon: BarChart3, label: t('nav.indicators'), href: '/indicators' },
     { icon: Users, label: t('nav.teams'), href: '/teams', roles: ['admin', 'root', 'leader'] },
