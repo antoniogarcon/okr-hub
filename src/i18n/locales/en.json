@@ -57,7 +57,7 @@
     "loginTitle": "Welcome back",
     "loginSubtitle": "Enter your credentials to continue",
     "signupTitle": "Create your account",
-    "passwordRequirements": "Minimum 10 characters, uppercase, lowercase, number and special character",
+    "passwordRequirements": "Minimum 8 characters, uppercase, lowercase, number and special character",
     "invalidCredentials": "Invalid credentials",
     "weakPassword": "Weak password. Follow the security requirements.",
     "copyright": "© {{year}} OKRs View. All rights reserved.",
@@ -71,7 +71,7 @@
       "name": "Enter your full name"
     },
     "requirements": {
-      "minLength": "Minimum 10 characters",
+      "minLength": "Minimum 8 characters",
       "uppercase": "Uppercase letter",
       "lowercase": "Lowercase letter",
       "number": "Number",

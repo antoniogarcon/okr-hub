@@ -70,9 +70,9 @@ Deno.serve(async (req) => {
     }
 
     // Validate password strength
-    if (!password || password.length < 10) {
+    if (!password || password.length < 8) {
       return new Response(
-        JSON.stringify({ error: 'Password must be at least 10 characters long' }),
+        JSON.stringify({ error: 'Password must be at least 8 characters long' }),
         {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },

@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Password validation: min 10 chars, uppercase, lowercase, number, special char
 export const passwordSchema = z
   .string()
-  .min(10, 'Senha deve ter no mínimo 10 caracteres')
+  .min(8, 'Senha deve ter no mínimo 8 caracteres')
   .regex(/[A-Z]/, 'Senha deve conter pelo menos uma letra maiúscula')
   .regex(/[a-z]/, 'Senha deve conter pelo menos uma letra minúscula')
   .regex(/[0-9]/, 'Senha deve conter pelo menos um número')
@@ -47,8 +47,8 @@ export function getPasswordStrength(password: string): {
 } {
   let score = 0;
   
-  if (password.length >= 10) score++;
-  if (password.length >= 14) score++;
+  if (password.length >= 8) score++;
+  if (password.length >= 12) score++;
   if (/[A-Z]/.test(password)) score++;
   if (/[a-z]/.test(password)) score++;
   if (/[0-9]/.test(password)) score++;

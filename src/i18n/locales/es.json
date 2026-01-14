@@ -57,7 +57,7 @@
     "loginTitle": "Bienvenido de nuevo",
     "loginSubtitle": "Ingresa tus credenciales para continuar",
     "signupTitle": "Crea tu cuenta",
-    "passwordRequirements": "Mínimo 10 caracteres, mayúsculas, minúsculas, número y carácter especial",
+    "passwordRequirements": "Mínimo 8 caracteres, mayúsculas, minúsculas, número y carácter especial",
     "invalidCredentials": "Credenciales inválidas",
     "weakPassword": "Contraseña débil. Sigue los requisitos de seguridad.",
     "copyright": "© {{year}} OKRs View. Todos los derechos reservados.",
@@ -71,7 +71,7 @@
       "name": "Ingresa tu nombre completo"
     },
     "requirements": {
-      "minLength": "Mínimo 10 caracteres",
+      "minLength": "Mínimo 8 caracteres",
       "uppercase": "Letra mayúscula",
       "lowercase": "Letra minúscula",
       "number": "Número",
