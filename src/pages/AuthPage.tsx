@@ -95,7 +95,7 @@ const AuthPage: React.FC = () => {
 
   // Password requirements checklist - for signup form
   const passwordRequirements = [
-    { label: t('auth.requirements.minLength'), met: formData.password.length >= 10 },
+    { label: t('auth.requirements.minLength'), met: formData.password.length >= 8 },
     { label: t('auth.requirements.uppercase'), met: /[A-Z]/.test(formData.password) },
     { label: t('auth.requirements.lowercase'), met: /[a-z]/.test(formData.password) },
     { label: t('auth.requirements.number'), met: /[0-9]/.test(formData.password) },
@@ -107,7 +107,7 @@ const AuthPage: React.FC = () => {
 
   // Password requirements checklist - for reset password form
   const resetPasswordRequirements = [
-    { label: t('auth.requirements.minLength'), met: resetPasswordData.password.length >= 10 },
+    { label: t('auth.requirements.minLength'), met: resetPasswordData.password.length >= 8 },
     { label: t('auth.requirements.uppercase'), met: /[A-Z]/.test(resetPasswordData.password) },
     { label: t('auth.requirements.lowercase'), met: /[a-z]/.test(resetPasswordData.password) },
     { label: t('auth.requirements.number'), met: /[0-9]/.test(resetPasswordData.password) },
@@ -258,7 +258,7 @@ const AuthPage: React.FC = () => {
     }
 
     // Validate password strength
-    const hasMinLength = resetPasswordData.password.length >= 10;
+    const hasMinLength = resetPasswordData.password.length >= 8;
     const hasUppercase = /[A-Z]/.test(resetPasswordData.password);
     const hasLowercase = /[a-z]/.test(resetPasswordData.password);
     const hasNumber = /[0-9]/.test(resetPasswordData.password);
