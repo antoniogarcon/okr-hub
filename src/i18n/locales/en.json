@@ -564,5 +564,27 @@
       "feed": "Feed",
       "feedDesc": "Recent updates"
     }
+  },
+  "errors": {
+    "AUTH_INVALID_CREDENTIALS": "Invalid email or password",
+    "AUTH_SESSION_EXPIRED": "Your session has expired. Please log in again.",
+    "AUTH_UNAUTHORIZED": "You are not authenticated. Please log in to continue.",
+    "AUTH_FORBIDDEN": "You don't have permission to access this resource.",
+    "VALIDATION_REQUIRED": "The field {{field}} is required",
+    "VALIDATION_INVALID_FORMAT": "Invalid format",
+    "VALIDATION_MIN_LENGTH": "Must have at least {{min}} characters",
+    "VALIDATION_MAX_LENGTH": "Must have at most {{max}} characters",
+    "DATA_NOT_FOUND": "The requested item was not found",
+    "DATA_CONFLICT": "This item already exists",
+    "DATA_INTEGRITY": "Cannot perform this action due to dependencies",
+    "NETWORK_ERROR": "Connection error. Check your internet.",
+    "NETWORK_TIMEOUT": "The request took too long. Please try again.",
+    "DB_CONNECTION": "Error connecting to the server",
+    "DB_QUERY": "Error processing your request",
+    "DB_CONSTRAINT": "Operation not allowed due to data restrictions",
+    "PERMISSION_DENIED": "You don't have permission to perform this action",
+    "TENANT_MISMATCH": "You don't have access to this tenant",
+    "UNKNOWN": "An unexpected error occurred. Please try again.",
+    "SERVER_ERROR": "Internal server error. Please try again later."
   }
 }

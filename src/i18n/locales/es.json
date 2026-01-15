@@ -564,5 +564,27 @@
       "feed": "Feed",
       "feedDesc": "Actualizaciones recientes"
     }
+  },
+  "errors": {
+    "AUTH_INVALID_CREDENTIALS": "Correo o contraseña incorrectos",
+    "AUTH_SESSION_EXPIRED": "Tu sesión ha expirado. Inicia sesión nuevamente.",
+    "AUTH_UNAUTHORIZED": "No estás autenticado. Inicia sesión para continuar.",
+    "AUTH_FORBIDDEN": "No tienes permiso para acceder a este recurso.",
+    "VALIDATION_REQUIRED": "El campo {{field}} es obligatorio",
+    "VALIDATION_INVALID_FORMAT": "Formato inválido",
+    "VALIDATION_MIN_LENGTH": "Debe tener al menos {{min}} caracteres",
+    "VALIDATION_MAX_LENGTH": "Debe tener como máximo {{max}} caracteres",
+    "DATA_NOT_FOUND": "El elemento solicitado no fue encontrado",
+    "DATA_CONFLICT": "Este elemento ya existe",
+    "DATA_INTEGRITY": "No se puede realizar esta acción debido a dependencias",
+    "NETWORK_ERROR": "Error de conexión. Verifica tu internet.",
+    "NETWORK_TIMEOUT": "La solicitud tardó demasiado. Intenta de nuevo.",
+    "DB_CONNECTION": "Error al conectar con el servidor",
+    "DB_QUERY": "Error al procesar tu solicitud",
+    "DB_CONSTRAINT": "Operación no permitida debido a restricciones de datos",
+    "PERMISSION_DENIED": "No tienes permiso para realizar esta acción",
+    "TENANT_MISMATCH": "No tienes acceso a este tenant",
+    "UNKNOWN": "Ocurrió un error inesperado. Intenta de nuevo.",
+    "SERVER_ERROR": "Error interno del servidor. Intenta de nuevo más tarde."
   }
 }
