@@ -167,6 +167,7 @@ export type Database = {
           owner_id: string | null
           parent_id: string | null
           progress: number
+          sponsor_id: string | null
           start_date: string | null
           status: string
           team_id: string | null
@@ -183,6 +184,7 @@ export type Database = {
           owner_id?: string | null
           parent_id?: string | null
           progress?: number
+          sponsor_id?: string | null
           start_date?: string | null
           status?: string
           team_id?: string | null
@@ -199,6 +201,7 @@ export type Database = {
           owner_id?: string | null
           parent_id?: string | null
           progress?: number
+          sponsor_id?: string | null
           start_date?: string | null
           status?: string
           team_id?: string | null
@@ -223,6 +226,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "okrs_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "okrs_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
@@ -231,6 +241,50 @@ export type Database = {
           },
           {
             foreignKeyName: "okrs_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizational_roles: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          sort_order: number | null
+          tenant_id: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          sort_order?: number | null
+          tenant_id: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          sort_order?: number | null
+          tenant_id?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organizational_roles_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -449,6 +503,41 @@ export type Database = {
         }
         Relationships: []
       }
+      user_organizational_roles: {
+        Row: {
+          assigned_at: string
+          assigned_by: string | null
+          id: string
+          is_primary: boolean
+          organizational_role_id: string
+          user_id: string
+        }
+        Insert: {
+          assigned_at?: string
+          assigned_by?: string | null
+          id?: string
+          is_primary?: boolean
+          organizational_role_id: string
+          user_id: string
+        }
+        Update: {
+          assigned_at?: string
+          assigned_by?: string | null
+          id?: string
+          is_primary?: boolean
+          organizational_role_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_organizational_roles_organizational_role_id_fkey"
+            columns: ["organizational_role_id"]
+            isOneToOne: false
+            referencedRelation: "organizational_roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -619,6 +708,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_default_organizational_roles: {
+        Args: { p_tenant_id: string }
+        Returns: undefined
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
