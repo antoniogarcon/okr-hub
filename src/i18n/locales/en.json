@@ -19,7 +19,10 @@
     "logout": "Logout",
     "profile": "Profile",
     "remove": "Remove",
-    "error": "Error"
+    "error": "Error",
+    "refresh": "Refresh",
+    "tryAgain": "Try again",
+    "errorLoading": "Error loading data."
   },
   "auth": {
     "login": "Sign In",
@@ -105,7 +108,8 @@
     "wiki": "Wiki",
     "feed": "Feed",
     "admin": "Administration",
-    "tenants": "Tenants"
+    "tenants": "Tenants",
+    "organizationalRoles": "Organizational Roles"
   },
   "dashboard": {
     "title": "OKRs Dashboard",
@@ -564,6 +568,42 @@
       "feed": "Feed",
       "feedDesc": "Recent updates"
     }
+  },
+  "organizationalRoles": {
+    "title": "Organizational Roles",
+    "subtitle": "Manage SAFe roles and organizational functions",
+    "adminOnly": "Only administrators can access this page.",
+    "create": "Create Role",
+    "edit": "Edit Role",
+    "createDesc": "Define a new organizational role.",
+    "editDesc": "Update the organizational role.",
+    "name": "Name",
+    "namePlaceholder": "E.g.: Product Owner",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe the responsibilities...",
+    "type": "Type",
+    "selectType": "Select type",
+    "types": {
+      "safe": "SAFe",
+      "custom": "Custom"
+    },
+    "users": "users",
+    "manageUsers": "Manage People",
+    "manageUsersFor": "Manage people for",
+    "noUsersFound": "No users found in this tenant.",
+    "primary": "Primary",
+    "assigned": "Assigned",
+    "removed": "Removed",
+    "searchPlaceholder": "Search roles...",
+    "empty": "No roles registered",
+    "createFirst": "Create the first organizational role.",
+    "noResults": "No roles found",
+    "tryDifferentSearch": "Try different search terms.",
+    "deleteConfirmTitle": "Delete Role",
+    "deleteConfirmDescription": "Are you sure you want to delete the role \"{{name}}\"? All users will be unassigned.",
+    "created": "Role created successfully!",
+    "updated": "Role updated successfully!",
+    "deleted": "Role deleted successfully!"
   },
   "errors": {
     "AUTH_INVALID_CREDENTIALS": "Invalid email or password",

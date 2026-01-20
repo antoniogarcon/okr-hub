@@ -19,7 +19,10 @@
     "logout": "Salir",
     "profile": "Perfil",
     "remove": "Eliminar",
-    "error": "Error"
+    "error": "Error",
+    "refresh": "Actualizar",
+    "tryAgain": "Intentar de nuevo",
+    "errorLoading": "Error al cargar los datos."
   },
   "auth": {
     "login": "Iniciar Sesión",
@@ -105,7 +108,8 @@
     "wiki": "Wiki",
     "feed": "Feed",
     "admin": "Administración",
-    "tenants": "Tenants"
+    "tenants": "Tenants",
+    "organizationalRoles": "Roles Organizacionales"
   },
   "dashboard": {
     "title": "Dashboard OKRs",
@@ -564,6 +568,42 @@
       "feed": "Feed",
       "feedDesc": "Actualizaciones recientes"
     }
+  },
+  "organizationalRoles": {
+    "title": "Roles Organizacionales",
+    "subtitle": "Gestiona los roles SAFe y funciones organizacionales",
+    "adminOnly": "Solo los administradores pueden acceder a esta página.",
+    "create": "Crear Rol",
+    "edit": "Editar Rol",
+    "createDesc": "Define un nuevo rol organizacional.",
+    "editDesc": "Actualiza el rol organizacional.",
+    "name": "Nombre",
+    "namePlaceholder": "Ej: Product Owner",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Describe las responsabilidades...",
+    "type": "Tipo",
+    "selectType": "Selecciona el tipo",
+    "types": {
+      "safe": "SAFe",
+      "custom": "Personalizado"
+    },
+    "users": "usuarios",
+    "manageUsers": "Gestionar Personas",
+    "manageUsersFor": "Gestionar personas para",
+    "noUsersFound": "Ningún usuario encontrado en este tenant.",
+    "primary": "Principal",
+    "assigned": "Asignado",
+    "removed": "Removido",
+    "searchPlaceholder": "Buscar roles...",
+    "empty": "Ningún rol registrado",
+    "createFirst": "Crea el primer rol organizacional.",
+    "noResults": "Ningún rol encontrado",
+    "tryDifferentSearch": "Intenta con otros términos de búsqueda.",
+    "deleteConfirmTitle": "Eliminar Rol",
+    "deleteConfirmDescription": "¿Estás seguro de eliminar el rol \"{{name}}\"? Todos los usuarios serán desvinculados.",
+    "created": "¡Rol creado exitosamente!",
+    "updated": "¡Rol actualizado exitosamente!",
+    "deleted": "¡Rol eliminado exitosamente!"
   },
   "errors": {
     "AUTH_INVALID_CREDENTIALS": "Correo o contraseña incorrectos",

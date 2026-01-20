@@ -26,6 +26,7 @@ import WikiPage from "./pages/WikiPage";
 import FeedPage from "./pages/FeedPage";
 import AdminPage from "./pages/AdminPage";
 import TenantsPage from "./pages/TenantsPage";
+import OrganizationalRolesPage from "./pages/OrganizationalRolesPage";
 import NotFound from "./pages/NotFound";
 
 // i18n
@@ -84,6 +85,14 @@ const App = () => (
                 element={
                   <AdminRoute>
                     <AdminPage />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/organizational-roles"
+                element={
+                  <AdminRoute>
+                    <OrganizationalRolesPage />
                   </AdminRoute>
                 }
               />
