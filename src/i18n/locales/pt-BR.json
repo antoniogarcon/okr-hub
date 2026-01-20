@@ -19,7 +19,10 @@
     "logout": "Sair",
     "profile": "Perfil",
     "remove": "Remover",
-    "error": "Erro"
+    "error": "Erro",
+    "refresh": "Atualizar",
+    "tryAgain": "Tentar novamente",
+    "errorLoading": "Erro ao carregar os dados."
   },
   "auth": {
     "login": "Entrar",
@@ -105,7 +108,8 @@
     "wiki": "Wiki",
     "feed": "Feed",
     "admin": "Administração",
-    "tenants": "Tenants"
+    "tenants": "Tenants",
+    "organizationalRoles": "Papéis Organizacionais"
   },
   "dashboard": {
     "title": "Dashboard OKRs",
@@ -564,6 +568,42 @@
       "feed": "Feed",
       "feedDesc": "Atualizações recentes"
     }
+  },
+  "organizationalRoles": {
+    "title": "Papéis Organizacionais",
+    "subtitle": "Gerencie os papéis SAFe e funções organizacionais",
+    "adminOnly": "Apenas administradores podem acessar esta página.",
+    "create": "Criar Papel",
+    "edit": "Editar Papel",
+    "createDesc": "Defina um novo papel organizacional.",
+    "editDesc": "Atualize o papel organizacional.",
+    "name": "Nome",
+    "namePlaceholder": "Ex: Product Owner",
+    "description": "Descrição",
+    "descriptionPlaceholder": "Descreva as responsabilidades...",
+    "type": "Tipo",
+    "selectType": "Selecione o tipo",
+    "types": {
+      "safe": "SAFe",
+      "custom": "Customizado"
+    },
+    "users": "usuários",
+    "manageUsers": "Gerenciar Pessoas",
+    "manageUsersFor": "Gerenciar pessoas para",
+    "noUsersFound": "Nenhum usuário encontrado neste tenant.",
+    "primary": "Principal",
+    "assigned": "Atribuído",
+    "removed": "Removido",
+    "searchPlaceholder": "Buscar papéis...",
+    "empty": "Nenhum papel cadastrado",
+    "createFirst": "Crie o primeiro papel organizacional.",
+    "noResults": "Nenhum papel encontrado",
+    "tryDifferentSearch": "Tente termos de busca diferentes.",
+    "deleteConfirmTitle": "Excluir Papel",
+    "deleteConfirmDescription": "Tem certeza que deseja excluir o papel \"{{name}}\"? Todos os usuários serão desvinculados.",
+    "created": "Papel criado com sucesso!",
+    "updated": "Papel atualizado com sucesso!",
+    "deleted": "Papel excluído com sucesso!"
   },
   "errors": {
     "AUTH_INVALID_CREDENTIALS": "E-mail ou senha incorretos",

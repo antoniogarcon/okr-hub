@@ -18,6 +18,7 @@ import {
   ChevronLeft,
   LogOut,
   User,
+  Shield,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -63,6 +64,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       icon: Settings, 
       label: t('nav.admin'), 
       href: '/admin',
+      roles: ['admin', 'root'],
+    },
+    {
+      icon: Shield,
+      label: t('nav.organizationalRoles'),
+      href: '/organizational-roles',
       roles: ['admin', 'root'],
     },
     { 
