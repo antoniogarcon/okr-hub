@@ -13,6 +13,7 @@ import {
   ListTodo,
   BookOpen,
   Bell,
+  FileText,
   Settings,
   Building2,
   ChevronLeft,
@@ -57,6 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
     { icon: ListTodo, label: t('nav.backlog'), href: '/backlog' },
     { icon: BookOpen, label: t('nav.wiki'), href: '/wiki' },
     { icon: Bell, label: t('nav.feed'), href: '/feed' },
+    { icon: FileText, label: t('nav.reports'), href: '/reports', roles: ['admin', 'root', 'leader'] },
   ];
 
   const adminNavItems: NavItem[] = [

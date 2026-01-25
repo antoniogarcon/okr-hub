@@ -24,6 +24,7 @@ import TrainPage from "./pages/TrainPage";
 import BacklogPage from "./pages/BacklogPage";
 import WikiPage from "./pages/WikiPage";
 import FeedPage from "./pages/FeedPage";
+import ReportsPage from "./pages/ReportsPage";
 import AdminPage from "./pages/AdminPage";
 import TenantsPage from "./pages/TenantsPage";
 import OrganizationalRolesPage from "./pages/OrganizationalRolesPage";
@@ -78,6 +79,14 @@ const App = () => (
               <Route path="/backlog" element={<BacklogPage />} />
               <Route path="/wiki" element={<WikiPage />} />
               <Route path="/feed" element={<FeedPage />} />
+              <Route
+                path="/reports"
+                element={
+                  <AdminRoute>
+                    <ReportsPage />
+                  </AdminRoute>
+                }
+              />
               
               {/* Admin Routes - admin + root */}
               <Route
