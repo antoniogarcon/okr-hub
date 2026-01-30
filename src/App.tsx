@@ -28,6 +28,7 @@ import ReportsPage from "./pages/ReportsPage";
 import AdminPage from "./pages/AdminPage";
 import TenantsPage from "./pages/TenantsPage";
 import OrganizationalRolesPage from "./pages/OrganizationalRolesPage";
+import NotificationsPage from "./pages/NotificationsPage";
 import NotFound from "./pages/NotFound";
 
 // i18n
@@ -79,6 +80,7 @@ const App = () => (
               <Route path="/backlog" element={<BacklogPage />} />
               <Route path="/wiki" element={<WikiPage />} />
               <Route path="/feed" element={<FeedPage />} />
+              <Route path="/notifications" element={<NotificationsPage />} />
               <Route
                 path="/reports"
                 element={

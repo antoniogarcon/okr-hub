@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Bell, Search, Globe, Check } from 'lucide-react';
+import { Search, Globe, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage, type SupportedLanguage } from '@/hooks/useLanguage';
+import { NotificationsDropdown } from '@/components/notifications';
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -72,10 +73,7 @@ export const Header: React.FC = () => {
         </DropdownMenu>
 
         {/* Notifications */}
-        <Button variant="ghost" size="icon" className="relative text-muted-foreground">
-          <Bell className="h-5 w-5" />
-          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-destructive" />
-        </Button>
+        <NotificationsDropdown />
       </div>
     </header>
   );

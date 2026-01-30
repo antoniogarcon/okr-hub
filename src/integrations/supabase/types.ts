@@ -158,6 +158,115 @@ export type Database = {
           },
         ]
       }
+      notification_preferences: {
+        Row: {
+          created_at: string
+          email_digest: string | null
+          email_enabled: boolean
+          id: string
+          okr_completed: boolean
+          okr_created: boolean
+          okr_linked: boolean
+          okr_progress: boolean
+          role_changes: boolean
+          team_changes: boolean
+          tenant_id: string
+          updated_at: string
+          user_id: string
+          wiki_updates: boolean
+        }
+        Insert: {
+          created_at?: string
+          email_digest?: string | null
+          email_enabled?: boolean
+          id?: string
+          okr_completed?: boolean
+          okr_created?: boolean
+          okr_linked?: boolean
+          okr_progress?: boolean
+          role_changes?: boolean
+          team_changes?: boolean
+          tenant_id: string
+          updated_at?: string
+          user_id: string
+          wiki_updates?: boolean
+        }
+        Update: {
+          created_at?: string
+          email_digest?: string | null
+          email_enabled?: boolean
+          id?: string
+          okr_completed?: boolean
+          okr_created?: boolean
+          okr_linked?: boolean
+          okr_progress?: boolean
+          role_changes?: boolean
+          team_changes?: boolean
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string
+          wiki_updates?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_preferences_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          event_type: string
+          id: string
+          is_read: boolean
+          message: string
+          metadata: Json | null
+          tenant_id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_type: string
+          id?: string
+          is_read?: boolean
+          message: string
+          metadata?: Json | null
+          tenant_id: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_type?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          metadata?: Json | null
+          tenant_id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       okrs: {
         Row: {
           created_at: string
@@ -711,6 +820,18 @@ export type Database = {
       create_default_organizational_roles: {
         Args: { p_tenant_id: string }
         Returns: undefined
+      }
+      create_user_notification: {
+        Args: {
+          p_entity_id?: string
+          p_entity_type?: string
+          p_event_type: string
+          p_message: string
+          p_tenant_id: string
+          p_title: string
+          p_user_id: string
+        }
+        Returns: string
       }
       get_user_role: {
         Args: { _user_id: string }

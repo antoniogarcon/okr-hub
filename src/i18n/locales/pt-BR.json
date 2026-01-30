@@ -670,5 +670,39 @@
     "TENANT_MISMATCH": "Você não tem acesso a este tenant",
     "UNKNOWN": "Ocorreu um erro inesperado. Tente novamente.",
     "SERVER_ERROR": "Erro interno do servidor. Tente novamente mais tarde."
+  },
+  "notifications": {
+    "title": "Notificações",
+    "pageTitle": "Notificações",
+    "pageSubtitle": "Acompanhe todas as atualizações importantes",
+    "allNotifications": "Todas as Notificações",
+    "empty": "Nenhuma notificação",
+    "emptyDescription": "Você será notificado sobre atualizações importantes",
+    "noMatchingNotifications": "Nenhuma notificação corresponde ao filtro selecionado",
+    "markAllRead": "Marcar todas como lidas",
+    "viewAll": "Ver todas as notificações",
+    "unread": "não lidas",
+    "preferences": "Preferências",
+    "filters": {
+      "all": "Todas",
+      "unread": "Não lidas",
+      "okr": "OKRs",
+      "wiki": "Wiki",
+      "team": "Equipes",
+      "role": "Papéis"
+    },
+    "events": {
+      "okr_created": "Novo OKR criado",
+      "okr_completed": "OKR concluído",
+      "okr_progress": "Progresso atualizado",
+      "okr_linked": "OKR vinculado",
+      "wiki_created": "Documento criado",
+      "wiki_updated": "Documento atualizado",
+      "team_member_added": "Adicionado à equipe",
+      "team_member_removed": "Removido da equipe",
+      "role_changed": "Papel alterado",
+      "org_role_assigned": "Papel organizacional atribuído",
+      "org_role_removed": "Papel organizacional removido"
+    }
   }
 }
