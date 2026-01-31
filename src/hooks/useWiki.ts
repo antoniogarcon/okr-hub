@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { useAuditLog } from './useAuditLog';
 
 export interface WikiCategory {
   id: string;
@@ -190,6 +191,7 @@ export const useWikiMutations = () => {
   const queryClient = useQueryClient();
   const { getTenantId, profile } = useAuth();
   const tenantId = getTenantId();
+  const { logWikiChange } = useAuditLog();
 
   const createDocument = useMutation({
     mutationFn: async (input: CreateDocumentInput) => {
@@ -210,8 +212,9 @@ export const useWikiMutations = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['wiki-documents'] });
+      logWikiChange('wiki_created', data.id, { title: data.title });
       toast.success(t('wiki.createSuccess'));
     },
     onError: (error) => {
@@ -239,10 +242,11 @@ export const useWikiMutations = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['wiki-documents'] });
       queryClient.invalidateQueries({ queryKey: ['wiki-document'] });
       queryClient.invalidateQueries({ queryKey: ['wiki-versions'] });
+      logWikiChange('wiki_updated', variables.id, { title: data.title });
       toast.success(t('wiki.updateSuccess'));
     },
     onError: (error) => {
@@ -259,9 +263,11 @@ export const useWikiMutations = () => {
         .eq('id', documentId);
 
       if (error) throw error;
+      return documentId;
     },
-    onSuccess: () => {
+    onSuccess: (documentId) => {
       queryClient.invalidateQueries({ queryKey: ['wiki-documents'] });
+      logWikiChange('wiki_deleted', documentId);
       toast.success(t('wiki.deleteSuccess'));
     },
     onError: (error) => {

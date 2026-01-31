@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { useAuditLog } from './useAuditLog';
 
 export interface KeyResult {
   id: string;
@@ -262,6 +263,7 @@ export const useParentOKRs = (tenantId: string | undefined, excludeId?: string) 
 export const useCreateOKR = () => {
   const queryClient = useQueryClient();
   const { getTenantId } = useAuth();
+  const { logOkrChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async (data: OKRFormData) => {
@@ -289,9 +291,10 @@ export const useCreateOKR = () => {
       if (error) throw error;
       return okr;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['okrs'] });
       queryClient.invalidateQueries({ queryKey: ['parent-okrs'] });
+      logOkrChange('okr_created', data.id, { title: data.title, type: data.type });
       toast.success('OKR criado com sucesso!');
     },
     onError: (error) => {
@@ -304,6 +307,7 @@ export const useCreateOKR = () => {
 // Update OKR
 export const useUpdateOKR = () => {
   const queryClient = useQueryClient();
+  const { logOkrChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Partial<OKRFormData> }) => {
@@ -326,9 +330,10 @@ export const useUpdateOKR = () => {
       if (error) throw error;
       return okr;
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['okrs'] });
       queryClient.invalidateQueries({ queryKey: ['okr'] });
+      logOkrChange('okr_updated', variables.id, { title: data.title });
       toast.success('OKR atualizado com sucesso!');
     },
     onError: (error) => {
@@ -341,6 +346,7 @@ export const useUpdateOKR = () => {
 // Delete OKR
 export const useDeleteOKR = () => {
   const queryClient = useQueryClient();
+  const { logOkrChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async (id: string) => {
@@ -350,10 +356,12 @@ export const useDeleteOKR = () => {
         .eq('id', id);
 
       if (error) throw error;
+      return id;
     },
-    onSuccess: () => {
+    onSuccess: (id) => {
       queryClient.invalidateQueries({ queryKey: ['okrs'] });
       queryClient.invalidateQueries({ queryKey: ['parent-okrs'] });
+      logOkrChange('okr_deleted', id);
       toast.success('OKR excluído com sucesso!');
     },
     onError: (error) => {
@@ -366,6 +374,7 @@ export const useDeleteOKR = () => {
 // Create Key Result
 export const useCreateKeyResult = () => {
   const queryClient = useQueryClient();
+  const { logKeyResultChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async ({ okrId, data }: { okrId: string; data: KeyResultFormData }) => {
@@ -386,9 +395,10 @@ export const useCreateKeyResult = () => {
       if (error) throw error;
       return kr;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['okrs'] });
       queryClient.invalidateQueries({ queryKey: ['okr'] });
+      logKeyResultChange('key_result_created', data.id, { title: data.title, okr_id: data.okr_id });
       toast.success('Key Result criado com sucesso!');
     },
     onError: (error) => {
@@ -401,6 +411,7 @@ export const useCreateKeyResult = () => {
 // Update Key Result progress
 export const useUpdateKeyResult = () => {
   const queryClient = useQueryClient();
+  const { logKeyResultChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Partial<KeyResultFormData & { current_value: number }> }) => {
@@ -414,9 +425,10 @@ export const useUpdateKeyResult = () => {
       if (error) throw error;
       return kr;
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['okrs'] });
       queryClient.invalidateQueries({ queryKey: ['okr'] });
+      logKeyResultChange('key_result_updated', variables.id, { current_value: data.current_value, progress: data.progress });
       toast.success('Key Result atualizado com sucesso!');
     },
     onError: (error) => {
@@ -429,6 +441,7 @@ export const useUpdateKeyResult = () => {
 // Delete Key Result
 export const useDeleteKeyResult = () => {
   const queryClient = useQueryClient();
+  const { logKeyResultChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async (id: string) => {
@@ -438,10 +451,12 @@ export const useDeleteKeyResult = () => {
         .eq('id', id);
 
       if (error) throw error;
+      return id;
     },
-    onSuccess: () => {
+    onSuccess: (id) => {
       queryClient.invalidateQueries({ queryKey: ['okrs'] });
       queryClient.invalidateQueries({ queryKey: ['okr'] });
+      logKeyResultChange('key_result_deleted', id);
       toast.success('Key Result excluído com sucesso!');
     },
     onError: (error) => {

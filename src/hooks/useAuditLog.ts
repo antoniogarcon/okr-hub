@@ -25,7 +25,10 @@ export type AuditAction =
   | 'wiki_updated'
   | 'wiki_deleted'
   | 'tenant_created'
-  | 'tenant_updated';
+  | 'tenant_updated'
+  | 'role_changed'
+  | 'org_role_assigned'
+  | 'org_role_removed';
 
 export type AuditEntityType = 
   | 'auth'
@@ -168,6 +171,19 @@ export const useAuditLog = () => {
     });
   }, [logAction]);
 
+  const logWikiChange = useCallback((
+    action: 'wiki_created' | 'wiki_updated' | 'wiki_deleted',
+    docId: string,
+    details?: Record<string, unknown>
+  ) => {
+    logAction({
+      action,
+      entityType: 'wiki',
+      entityId: docId,
+      details,
+    });
+  }, [logAction]);
+
   return {
     logAction,
     logLogin,
@@ -178,5 +194,6 @@ export const useAuditLog = () => {
     logTeamChange,
     logUserChange,
     logSprintChange,
+    logWikiChange,
   };
 };

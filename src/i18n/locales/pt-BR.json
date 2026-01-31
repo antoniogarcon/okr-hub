@@ -110,7 +110,8 @@
     "reports": "Relatórios",
     "admin": "Administração",
     "tenants": "Tenants",
-    "organizationalRoles": "Papéis Organizacionais"
+    "organizationalRoles": "Papéis Organizacionais",
+    "audit": "Auditoria"
   },
   "reports": {
     "title": "Relatórios",
@@ -704,5 +705,83 @@
       "org_role_assigned": "Papel organizacional atribuído",
       "org_role_removed": "Papel organizacional removido"
     }
+  },
+  "audit": {
+    "title": "Auditoria e Compliance",
+    "description": "Rastreabilidade de ações e logs de segurança",
+    "filters": "Filtros",
+    "filterByUser": "Filtrar por usuário",
+    "filterByAction": "Filtrar por ação",
+    "filterByEntity": "Filtrar por entidade",
+    "allUsers": "Todos os usuários",
+    "allActions": "Todas as ações",
+    "allEntities": "Todas as entidades",
+    "startDate": "Data início",
+    "endDate": "Data fim",
+    "clearFilters": "Limpar",
+    "refresh": "Atualizar",
+    "export": "Exportar",
+    "logsTitle": "Logs de Auditoria",
+    "logsDescription": "Exibindo {{count}} registros",
+    "noLogs": "Nenhum log de auditoria",
+    "noLogsDescription": "Quando houver atividades registradas, elas aparecerão aqui.",
+    "fields": "campos",
+    "columns": {
+      "timestamp": "Data/Hora",
+      "user": "Usuário",
+      "action": "Ação",
+      "entity": "Entidade",
+      "entityId": "ID do Registro",
+      "details": "Detalhes"
+    },
+    "stats": {
+      "totalLogs": "Total de Logs",
+      "authEvents": "Eventos de Auth",
+      "dataChanges": "Alterações de Dados",
+      "userChanges": "Alterações de Usuários"
+    },
+    "actions": {
+      "login": "Login",
+      "logout": "Logout",
+      "password_reset": "Redefinição de senha",
+      "user_created": "Usuário criado",
+      "user_updated": "Usuário atualizado",
+      "user_deactivated": "Usuário desativado",
+      "okr_created": "OKR criado",
+      "okr_updated": "OKR atualizado",
+      "okr_deleted": "OKR excluído",
+      "key_result_created": "Key Result criado",
+      "key_result_updated": "Key Result atualizado",
+      "key_result_deleted": "Key Result excluído",
+      "team_created": "Equipe criada",
+      "team_updated": "Equipe atualizada",
+      "team_deleted": "Equipe excluída",
+      "sprint_created": "Sprint criada",
+      "sprint_updated": "Sprint atualizada",
+      "sprint_completed": "Sprint concluída",
+      "wiki_created": "Documento criado",
+      "wiki_updated": "Documento atualizado",
+      "wiki_deleted": "Documento excluído",
+      "tenant_created": "Tenant criado",
+      "tenant_updated": "Tenant atualizado",
+      "role_changed": "Papel alterado",
+      "org_role_assigned": "Papel organizacional atribuído",
+      "org_role_removed": "Papel organizacional removido"
+    },
+    "entities": {
+      "auth": "Autenticação",
+      "user": "Usuário",
+      "okr": "OKR",
+      "key_result": "Key Result",
+      "team": "Equipe",
+      "sprint": "Sprint",
+      "wiki": "Wiki",
+      "tenant": "Tenant",
+      "organizational_role": "Papel Organizacional"
+    },
+    "securityNote": "Informações de Segurança",
+    "securityNote1": "Os logs de auditoria são imutáveis e não podem ser editados ou excluídos.",
+    "securityNote2": "Dados sensíveis não são armazenados em texto aberto.",
+    "securityNote3": "Todos os logs são isolados por tenant para garantir a privacidade."
   }
 }
