@@ -29,6 +29,7 @@ import AdminPage from "./pages/AdminPage";
 import TenantsPage from "./pages/TenantsPage";
 import OrganizationalRolesPage from "./pages/OrganizationalRolesPage";
 import NotificationsPage from "./pages/NotificationsPage";
+import AuditPage from "./pages/AuditPage";
 import NotFound from "./pages/NotFound";
 
 // i18n
@@ -104,6 +105,14 @@ const App = () => (
                 element={
                   <AdminRoute>
                     <OrganizationalRolesPage />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/audit"
+                element={
+                  <AdminRoute>
+                    <AuditPage />
                   </AdminRoute>
                 }
               />

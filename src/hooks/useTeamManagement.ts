@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { useAuditLog } from './useAuditLog';
 
 export interface TeamMember {
   id: string;
@@ -231,6 +232,7 @@ export const useCreateTeam = () => {
   const queryClient = useQueryClient();
   const { getTenantId } = useAuth();
   const { t } = useTranslation();
+  const { logTeamChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async (data: CreateTeamData) => {
@@ -255,8 +257,9 @@ export const useCreateTeam = () => {
       if (error) throw error;
       return team;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['teams'] });
+      logTeamChange('team_created', data.id, { name: data.name });
       toast.success(t('teams.createSuccess'));
     },
     onError: (error: Error) => {
@@ -270,6 +273,7 @@ export const useCreateTeam = () => {
 export const useUpdateTeam = () => {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
+  const { logTeamChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async ({ teamId, data }: { teamId: string; data: UpdateTeamData }) => {
@@ -294,8 +298,9 @@ export const useUpdateTeam = () => {
       if (error) throw error;
       return team;
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['teams'] });
+      logTeamChange('team_updated', variables.teamId, { name: data.name });
       toast.success(t('teams.updateSuccess'));
     },
     onError: (error: Error) => {
@@ -309,6 +314,7 @@ export const useUpdateTeam = () => {
 export const useDeleteTeam = () => {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
+  const { logTeamChange } = useAuditLog();
 
   return useMutation({
     mutationFn: async (teamId: string) => {
@@ -318,9 +324,11 @@ export const useDeleteTeam = () => {
         .eq('id', teamId);
 
       if (error) throw error;
+      return teamId;
     },
-    onSuccess: () => {
+    onSuccess: (teamId) => {
       queryClient.invalidateQueries({ queryKey: ['teams'] });
+      logTeamChange('team_deleted', teamId);
       toast.success(t('teams.deleteSuccess'));
     },
     onError: (error: Error) => {

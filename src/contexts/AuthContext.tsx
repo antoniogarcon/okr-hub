@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { 
@@ -169,10 +169,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => subscription.unsubscribe();
   }, [fetchUserProfile]);
 
+  // Audit logging helper
+  const logAuditAction = useCallback(async (action: string, entityType: string, entityId?: string, details?: Record<string, unknown>) => {
+    try {
+      await supabase.functions.invoke('audit-log', {
+        body: {
+          action,
+          entity_type: entityType,
+          entity_id: entityId || null,
+          details: details || null,
+        },
+      });
+    } catch (error) {
+      console.error('Failed to log audit action:', error);
+    }
+  }, []);
+
+  // Track if we've already logged this session's login
+  const hasLoggedLogin = useRef(false);
+
   // Login
   const login = useCallback(async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error, data } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
       });
@@ -182,12 +201,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { error: new Error(error.message) };
       }
 
+      // Log login audit event (deferred to avoid blocking)
+      if (data.user && !hasLoggedLogin.current) {
+        hasLoggedLogin.current = true;
+        setTimeout(() => {
+          logAuditAction('login', 'auth', undefined, { timestamp: new Date().toISOString() });
+        }, 500);
+      }
+
       return { error: null };
     } catch (error) {
       console.error('Unexpected login error:', error);
       return { error: error as Error };
     }
-  }, []);
+  }, [logAuditAction]);
 
   // Signup
   const signup = useCallback(async (email: string, password: string, name: string, tenantId?: string) => {
@@ -226,6 +253,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Logout
   const logout = useCallback(async () => {
+    // Log logout before clearing session
+    await logAuditAction('logout', 'auth', undefined, { timestamp: new Date().toISOString() });
+    
+    hasLoggedLogin.current = false;
     clearSessionData();
     await supabase.auth.signOut();
     setUser(null);
@@ -233,7 +264,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setProfile(null);
     setTenant(null);
     setSelectedTenantIdState(null);
-  }, []);
+  }, [logAuditAction]);
 
   // Refresh session - Supabase handles this automatically, but we can force it
   const refreshSession = useCallback(async (): Promise<boolean> => {

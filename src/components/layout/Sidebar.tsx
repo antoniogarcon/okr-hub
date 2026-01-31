@@ -20,6 +20,7 @@ import {
   LogOut,
   User,
   Shield,
+  ClipboardList,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -72,6 +73,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       icon: Shield,
       label: t('nav.organizationalRoles'),
       href: '/organizational-roles',
+      roles: ['admin', 'root'],
+    },
+    {
+      icon: ClipboardList,
+      label: t('nav.audit'),
+      href: '/audit',
       roles: ['admin', 'root'],
     },
     { 
