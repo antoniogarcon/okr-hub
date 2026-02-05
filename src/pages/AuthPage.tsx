@@ -316,7 +316,7 @@ const AuthPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-auth-background">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <p className="text-muted-foreground">{t('common.loading')}</p>
@@ -326,9 +326,16 @@ const AuthPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-auth-background">
+    <div className="min-h-screen flex flex-col bg-background relative overflow-hidden">
+      {/* Background effects - matching landing page */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute top-1/2 -left-40 w-80 h-80 rounded-full bg-info/10 blur-3xl" />
+        <div className="absolute -bottom-40 right-1/3 w-72 h-72 rounded-full bg-primary/5 blur-3xl" />
+      </div>
+
       {/* Top right controls */}
-      <div className="flex justify-end items-center gap-2 p-4">
+      <div className="relative z-10 flex justify-end items-center gap-2 p-4">
         <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
           <Accessibility className="h-5 w-5" />
         </Button>
@@ -354,7 +361,7 @@ const AuthPage: React.FC = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex items-center justify-center px-4 pb-8">
+      <div className="relative z-10 flex-1 flex items-center justify-center px-4 pb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -363,7 +370,7 @@ const AuthPage: React.FC = () => {
         >
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
-            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary mb-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary glow mb-4">
               <BarChart3 className="h-8 w-8 text-primary-foreground" />
             </div>
             <h1 className="text-2xl font-bold text-foreground">
@@ -384,7 +391,7 @@ const AuthPage: React.FC = () => {
 
           {/* Forgot Password View */}
           {currentView === 'forgot-password' && (
-            <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
+            <div className="glass rounded-2xl border border-border/50 shadow-lg p-6">
               {forgotPasswordSent ? (
                 <div className="text-center py-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mx-auto mb-4">
@@ -449,7 +456,7 @@ const AuthPage: React.FC = () => {
 
           {/* Reset Password View */}
           {currentView === 'reset-password' && (
-            <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
+            <div className="glass rounded-2xl border border-border/50 shadow-lg p-6">
               {resetPasswordSuccess ? (
                 <div className="text-center py-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mx-auto mb-4">
@@ -592,7 +599,7 @@ const AuthPage: React.FC = () => {
 
           {/* Auth Card */}
           {currentView === 'auth' && (
-            <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
+            <div className="glass rounded-2xl border border-border/50 shadow-lg p-6">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted">
                 <TabsTrigger value="login" className="data-[state=active]:bg-background">
