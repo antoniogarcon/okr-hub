@@ -1,152 +1,198 @@
+# 🎯 OKRs View
 
-# 📊 OKRs View
+**OKRs View** é uma aplicação web **multi-tenant** para gestão de **OKRs**, **métricas ágeis (Scrum)** e **gestão organizacional de pessoas**, projetada para **trens de desenvolvimento (ARTs)** que utilizam **SAFe**.
 
-**OKRs View** é uma aplicação web focada em **gestão de OKRs (Objectives and Key Results)** com suporte a **multi-tenancy**, **hierarquia organizacional**, **segurança avançada** e **visualização clara do alinhamento estratégico** entre objetivos corporativos, times e indivíduos.
-
-O projeto foi pensado para empresas que desejam acompanhar resultados de forma estruturada, segura e escalável.
-
----
-
-## 🎯 Objetivo do Projeto
-
-Criar uma plataforma simples e poderosa para:
-
-* Definir OKRs organizacionais, de times e individuais
-* Visualizar a relação entre OKRs pai e OKRs filhas
-* Garantir alinhamento estratégico entre áreas
-* Controlar acesso por papéis (roles)
-* Proteger informações sensíveis por tenant
+O produto oferece visões estratégicas e operacionais para **POs, PMs, BOs, líderes e equipes**, unificando estratégia, execução e transparência em um único lugar.
 
 ---
 
-## 🏗️ Arquitetura Conceitual
+## 🚀 Visão Geral
 
-* **Multi-tenant**: cada empresa (tenant) possui dados totalmente isolados
-* **Root User**: usuário global com acesso administrativo a todos os tenants
-* **Tenant Admin**: administrador da empresa
-* **Team Leader**: líder de equipe
-* **Team Member**: colaborador
+O OKRs View foi concebido para resolver problemas comuns em ambientes ágeis escalados:
 
----
+- Falta de visibilidade entre estratégia e execução  
+- OKRs desconectados das métricas reais dos times  
+- Pouca transparência entre equipes de um mesmo trem  
+- Dificuldade de gestão organizacional de pessoas  
 
-## 👥 Papéis e Permissões
-
-### 🔑 Root
-
-* Gerencia todos os tenants
-* Acesso total à aplicação
-
-### 🛠️ Tenant Admin
-
-* Gerencia usuários do próprio tenant
-* Cria e edita equipes
-* Cria OKRs organizacionais
-* Visualiza todos os OKRs do tenant
-
-### 👨‍💼 Team Leader
-
-* Cria e gerencia OKRs do seu time
-* Visualiza OKRs do time e OKRs pai
-
-### 👤 Team Member
-
-* Visualiza OKRs relacionados
-* Atualiza progresso dos Key Results atribuídos
+A aplicação conecta **OKRs hierárquicos**, **indicadores Scrum**, **gestão de pessoas**, **Wiki interna** e **Feed de eventos automáticos**.
 
 ---
 
-## 🧩 Funcionalidades Principais
+## 🧱 Principais Funcionalidades
 
-### ✅ Gestão de OKRs
-
-* Criação de Objectives e Key Results
-* Definição de métricas e progresso
-* Status automático baseado no avanço
-
-### 🔗 Hierarquia de OKRs
-
-* Relacionamento entre OKR pai e OKRs filhas
-* Visualização em árvore (organizacional → time → individual)
-
-### 👥 Gestão de Usuários
-
-* Convite por e-mail
-* Ativação segura de conta
-* Controle por papéis (roles)
-* Associação a equipes
-
-### 🏢 Gestão de Equipes
-
-* Criação e edição de times
-* Associação de usuários
-* Vinculação de OKRs por equipe
+### 🎯 Gestão de OKRs
+- OKRs hierárquicos (OKR Pai → OKRs Filhas)
+- OKRs de Trem e OKRs de Equipe
+- Key Results com progresso automático
+- Cálculo de progresso consolidado
+- Integração automática com Feed e Relatórios
 
 ---
 
-## 🔐 Segurança
+### 📊 Métricas Ágeis (Scrum)
+- Velocity por sprint
+- Capacity por sprint
+- Histórico de sprints
+- Tendências de entrega
+- Indicadores agregados por equipe e por trem
 
-* Isolamento total de dados por tenant
-* Controle de acesso baseado em papéis (RBAC)
-* Senhas com regras fortes:
+---
 
-  * Letras maiúsculas e minúsculas
-  * Números
-  * Caracteres especiais
-* Hash seguro de senhas
-* Logs de auditoria para ações críticas
+### 🚆 SAFe / ART
+- Organização por Trem de Desenvolvimento (ART)
+- Equipes vinculadas ao trem
+- Visão executiva consolidada
+- Relatórios estratégicos para liderança
+
+---
+
+### 👥 Gestão de Pessoas
+- Lista completa de pessoas do trem
+- Movimentação entre equipes
+- Ativação e desativação de usuários
+- Histórico organizacional (preservação de dados)
+
+---
+
+### 🧑‍💼 Papéis Organizacionais (SAFe)
+Separados das permissões técnicas:
+- Product Owner (PO)
+- Product Manager (PM)
+- Business Owner (BO)
+- Release Train Engineer (RTE)
+- Tech Lead, Agile Coach, etc.
+- Papéis customizáveis por tenant
+
+---
+
+### 📰 Feed Global de Atualizações
+Eventos automáticos como:
+- OKR criado, atualizado ou concluído
+- Atualização de velocity ou capacity
+- Movimentação de pessoas
+- Publicações e atualizações da Wiki
+
+Tudo centralizado em um feed único por trem.
+
+---
+
+### 🔔 Notificações
+- Notificações in-app por usuário
+- Eventos críticos do sistema
+- Estrutura preparada para e-mail (futuro)
+
+---
+
+### 📚 Wiki Integrada
+- Documentação interna do produto
+- Onboarding de novos usuários
+- Versionamento automático
+- Integração com Feed
+
+---
+
+## 🔐 Segurança e Governança
+
+- Autenticação por e-mail e senha
+- Política de senha forte
+- Hash seguro de senhas
+- Controle de acesso baseado em papéis (RBAC)
+- Isolamento total por tenant (multi-tenant)
+- Auditoria e logs imutáveis
+- Compliance-ready (ambientes corporativos)
 
 ---
 
 ## 🌍 Internacionalização (i18n)
 
-A aplicação suporta múltiplos idiomas:
+Idiomas suportados:
+- 🇧🇷 Português (Brasil) – padrão
+- 🇺🇸 Inglês
+- 🇪🇸 Espanhol
 
-* 🇧🇷 Português (Brasil)
-* 🇺🇸 Inglês
-* 🇪🇸 Espanhol
-
-O idioma é configurável por usuário.
-
----
-
-## 🎨 Design e UX
-
-* Interfaces desenhadas no **Figma**
-* Layout limpo e orientado a produto
-* Experiência focada em clareza e produtividade
-* Telas reutilizadas como referência visual no desenvolvimento
+Idioma configurável por usuário.
 
 ---
 
-## 🤖 Ferramentas Utilizadas
+## 👤 Tipos de Usuário
 
-* **Lovable** — geração e evolução da aplicação via prompts
-* **Figma** — design e prototipação das telas
-* **GitHub** — versionamento e documentação
+### Root
+- Gerencia todos os tenants
+- Visão global do sistema
+- Não pertence a nenhum tenant
+
+### Administrador do Tenant
+- Acesso total ao trem
+- Gerencia pessoas, equipes, OKRs e métricas
+
+### Líder de Equipe
+- Gerencia OKRs e métricas da própria equipe
+- Visão operacional
+
+### Membro de Equipe
+- Visualiza OKRs
+- Atualiza progresso de Key Results atribuídos
 
 ---
 
-## 🚀 Status do Projeto
+## 🧩 Arquitetura Conceitual
 
-🟡 **Em desenvolvimento ativo**
-
-* [x] Definição funcional
-* [x] Modelagem de usuários e permissões
-* [x] Design das telas
-* [x] Estrutura de prompts para geração no Lovable
-* [ ] Implementação final
-* [ ] Testes e ajustes
+- Aplicação Web
+- Multi-tenant
+- RBAC (Role-Based Access Control)
+- Domínios separados:
+  - Autenticação
+  - Pessoas
+  - Equipes
+  - OKRs
+  - Métricas
+  - Feed
+  - Wiki
+  - Auditoria
 
 ---
 
-## 📌 Próximos Passos
+## 🛠️ Ferramentas Utilizadas
 
-* Implementação de dashboards e métricas visuais
-* Exportação de relatórios
-* Histórico de progresso de OKRs
-* Notificações e lembretes
+- **Lovable** — geração e construção da aplicação
+- **Figma** — design das interfaces
+- **Builder.io** — geração assistida de layouts
+- **GitHub** — versionamento e documentação
 
+---
 
+## 📌 Status do Projeto
+
+✅ Funcional  
+✅ Estruturado  
+✅ Escalável  
+✅ Pronto para uso real  
+✅ Base sólida para evolução (v2.0)
+
+---
+
+## 🗺️ Próximos Passos (Roadmap)
+
+- Exportação de relatórios (PDF / CSV)
+- Integração com Jira / Azure DevOps
+- Indicadores de fluxo (Flow Metrics)
+- Gestão de capacidade por pessoa
+- Alertas inteligentes por risco de OKR
+
+---
+
+## 📄 Licença
+
+Projeto desenvolvido para fins educacionais e profissionais.  
+Licença a definir conforme evolução do produto.
+
+---
+
+## ✨ Autor
+
+**OKRs View**  
+Produto idealizado e estruturado para ambientes ágeis escalados (SAFe).
 
 
 
