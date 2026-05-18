@@ -277,7 +277,7 @@ export const useUpdateTeam = () => {
 
   return useMutation({
     mutationFn: async ({ teamId, data }: { teamId: string; data: UpdateTeamData }) => {
-      const updateData: Record<string, unknown> = {};
+      const updateData: Record<string, any> = {};
       
       if (data.name !== undefined) {
         updateData.name = data.name;
