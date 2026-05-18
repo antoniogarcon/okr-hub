@@ -227,7 +227,12 @@ export const useWikiMutations = () => {
     mutationFn: async (input: UpdateDocumentInput) => {
       if (!profile) throw new Error('Not authenticated');
 
-      const updates: Record<string, unknown> = { author_id: profile.id };
+      const updates: {
+        author_id: string;
+        title?: string;
+        content?: string;
+        category_id?: string;
+      } = { author_id: profile.id };
       if (input.title !== undefined) updates.title = input.title;
       if (input.content !== undefined) updates.content = input.content;
       if (input.category_id !== undefined) updates.category_id = input.category_id;
