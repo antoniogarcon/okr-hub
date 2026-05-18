@@ -277,8 +277,15 @@ export const useUpdateTeam = () => {
 
   return useMutation({
     mutationFn: async ({ teamId, data }: { teamId: string; data: UpdateTeamData }) => {
-      const updateData: Record<string, unknown> = {};
-      
+      const updateData: {
+        name?: string;
+        slug?: string;
+        description?: string;
+        color?: string;
+        leader_id?: string;
+        is_active?: boolean;
+      } = {};
+
       if (data.name !== undefined) {
         updateData.name = data.name;
         updateData.slug = generateSlug(data.name);
